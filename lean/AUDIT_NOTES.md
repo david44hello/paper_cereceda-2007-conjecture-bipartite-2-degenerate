@@ -1,4 +1,5 @@
 # AUDIT NOTES — Lean formalization of "The Cereceda (2007) conjecture holds for bipartite 2-degenerate graphs"
+## version 1.71 - 2026-10-29 09:10 ET — section 6: the old README's lines, word for word (the README now says only what to install, run and see).
 ## version 1.61 - 2026-10-28 21:31 ET — against v3.90 = FINAL (refs moved; [BH22] wordings).
 ## version 1.51 - 2026-10-28 19:00 ET — against v3.80 (refs moved; OAT steps; C = the largest constant; report clauses).
 ## version 1.41 - 2026-10-28 18:20 ET — against v3.60: G_0 removed (v3.50); Remark 4.8 (J_ℓ), minor models, Cereceda's form.
@@ -139,3 +140,13 @@ Where the route differs, the paper's steps are rows of their own:
   S_0 and S_1, in Lemmas 3.5 and 3.6" (the remark's mathematical claims are proved: `rem_3_9`). In Lean, the statements
   of Section 3 that assume bipartiteness are Lemma 3.5 (`lem_3_5`, `lem_3_5_equiv`, which take a proper 2-colouring
   `side`: the sides S_0 and S_1), Lemma 3.6 (`lem_3_6`), Proposition 3.8 (`prop_3_8`) and Theorem 3.1.
+
+## 6. From the old README
+
+This folder is the Lean 4 proof of the paper's results (version 3.90). It assumes results of three other works, each quoted from its source in `Cereceda/Cited/`: Theorem 5.22 of Cereceda's PhD thesis (2007), Theorem 1 of Bousquet and Heinrich (2022), and Theorems 8 and 10 of Bonamy, Johnson, Lignos, Patel and Paulusma (2014). Three statements also take a fact about planar graphs as an explicit hypothesis (one of them is Theorem 2 of Bousquet and Heinrich); Lean does not prove these facts. `AUDIT.md` gives each of the 122 claims of the paper with its status in Lean: 111 proved, 8 proved from the cited results, 3 proved given a planar-graph fact, 0 open. `AUDIT_NOTES.md` lists what is not formalized and where the Lean proof takes another route.
+
+Build, from this folder: `lake exe cache get && lake build` (Lean 4 v4.35.0, Mathlib commit 56a005855ea1).
+
+For the paper "The Cereceda (2007) conjecture holds for bipartite 2-degenerate graphs" by Dave Goel. The paper's link
+will be added here when it is posted. An expanded version of this paper, with many other results, is posted on Zenodo:
+https://doi.org/10.5281/zenodo.23603237
