@@ -1,6 +1,6 @@
 # The Cereceda (2007) conjecture holds for bipartite 2-degenerate graphs — Lean 4 proof
 
-The paper: its link will be added here when it is posted.
+The paper: https://doi.org/10.5281/zenodo.23731060
 
 This folder is a Lean 4 proof of the paper's results.
 
