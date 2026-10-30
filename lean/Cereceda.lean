@@ -7,6 +7,7 @@ import Cereceda.Bip.MainV40
 import Cereceda.Bip.MuV40
 import Cereceda.Bip.SidesFacts
 import Cereceda.Bip.Sides
+import Cereceda.Bip.TextCounts
 import Cereceda.Bip.Triangle
 import Cereceda.Cited.BH22
 import Cereceda.Cited.BJLPP14
@@ -16,19 +17,23 @@ import Cereceda.Defs.Bipartite
 import Cereceda.Defs.Classes
 import Cereceda.Defs.ColourDense
 import Cereceda.Defs.Degeneracy
+import Cereceda.Defs.Example2
 import Cereceda.Defs.Example8
 import Cereceda.Defs.Instance
 import Cereceda.Defs.Intro
 import Cereceda.Defs.LowerBound
 import Cereceda.Defs.Minor
 import Cereceda.Defs.OAT
+import Cereceda.Defs.PathClique
 import Cereceda.Defs.Triangle
+import Cereceda.Intro.ChordalKmn
 import Cereceda.Intro.Classes
 import Cereceda.Intro.ColourDense
 import Cereceda.Intro.Connected
 import Cereceda.Intro.DistanceHereditary
 import Cereceda.Intro.Examples
 import Cereceda.Intro.OAT
+import Cereceda.Intro.PathClique
 import Cereceda.Intro.SemiFalseIII
 import Cereceda.Intro.SemiFalse
 import Cereceda.Intro.Subdivision
@@ -48,6 +53,7 @@ import Cereceda.LB.PathCore
 import Cereceda.LB.PathHeight
 import Cereceda.LB.Planar
 import Cereceda.LB.Sec4
+import Cereceda.LB.TextApex
 import Cereceda.Paper.Statements
 import Cereceda.Setting.Assembly
 import Cereceda.Setting.CaseA
@@ -62,4 +68,5 @@ import Cereceda.Setting.Misc
 import Cereceda.Setting.Small
 import Cereceda.Setting.Sweep
 import Cereceda.Setting.SweepSteps
+import Cereceda.Setting.TextMoves
 import Cereceda.Setting.ZeroFull

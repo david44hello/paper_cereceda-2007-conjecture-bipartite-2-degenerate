@@ -1,5 +1,5 @@
 /-
-Cereceda/LB/GirthJ.lean — the graph `J_n` (n ≥ 5) has girth exactly six (paper Section 4.2, short v3.90 l. 674-679).
+Cereceda/LB/GirthJ.lean — the graph `J_n` (n ≥ 5) has girth exactly six (paper Section 4.2, short v4.24 l. 721-726).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 PROOF ROUTE: `≤ 6` from the 6-cycle a_1 v_1 v_2 v_3 v_4 v_5 a_1. `≥ 6`: `sideJ` is a proper 2-colouring, so every

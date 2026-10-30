@@ -1,6 +1,6 @@
 /-
 Cereceda/LB/JNotDense.lean — J_ℓ is connected, has girth 6 and minimum degree ≥ 2, and is not 3-colour-dense
-(short v3.90 l. 726-733).
+(short v4.24 l. 779-785).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.ColourDense
@@ -195,12 +195,12 @@ theorem case_pair {V : Type} [Fintype V] [DecidableEq V] {G : SimpleGraph V} [De
 end JNotDense
 
 open JNotDense in
-/-- Remark 4.8 (iii), v3.90 l. 728-733, the general step (any graph with minimum degree ≥ 2 and girth ≥ 6): "no
-identification as in the definition of 3-colour-dense graphs applies to it [...] Indeed, let S, u, v and D be as in
-that definition. If |D| = 1, then D = {u}, so N(u) ⊆ S ⊆ N(v), so u and v have at least two common neighbours, and
-J_ℓ has a cycle of length 4. If |D| ≥ 2, then |D ∪ S| ≤ 3, so |S| ≤ 1. The empty set is not a separator of a connected
-graph. If S = {z}, then D consists of two adjacent vertices, each of degree at least 2 with all its neighbours in D ∪ S; so
-both are adjacent to z, and J_ℓ has a triangle. Both cases contradict girth 6." -/
+/-- Remark 4.8 (iii), v4.24 l. 781-785, the general step (any graph with minimum degree ≥ 2 and girth ≥ 6): "no
+S, u, v and D have the first three properties. If |D| = 1, then D = {u} and N(u) ⊆ S ⊆ N(v); as u has degree at least
+2, u and v have at least two common neighbours, and J_ℓ has a cycle of length 4. If |D| ≥ 2, then |S| ≤ 1, since
+|D ∪ S| ≤ 3. The empty set is not a separator of a connected graph. If S = {z}, then D consists of two adjacent
+vertices, each of degree at least 2 with all its neighbours in D ∪ S. So both are adjacent to z, and J_ℓ has a triangle.
+Both cases contradict girth 6." -/
 theorem no_identification_of_girth {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
     (hdeg : ∀ x, 2 ≤ G.degree x) (hgirth : 6 ≤ G.egirth) (S : Set V) (u v : V) :
     IsSeparator G S → u ∉ S → v ∉ S → v ∉ compMinus G S u → S ⊆ G.neighborSet v →
@@ -230,9 +230,8 @@ theorem no_identification_of_girth {V : Type} [Fintype V] [DecidableEq V] (G : S
       exact not_six_le_of_le_four hgirth ((case_pair hdeg hu hw hwu h3).trans (by norm_num))
 
 open JNotDense in
-/-- Remark 4.8 (iii), v3.90 l. 727-729, for any nonempty graph with minimum degree ≥ 2 and girth ≥ 6: "It is not a
-disjoint union of cliques, and no identification as in the definition of 3-colour-dense graphs applies to it; so it
-is not 3-colour-dense." -/
+/-- Remark 4.8 (iii), v4.24 l. 780-781, for any nonempty graph with minimum degree ≥ 2 and girth ≥ 6: "It is not a
+disjoint union of cliques, so it suffices to show that no S, u, v and D have the first three properties." -/
 theorem not_colourDense_of_girth {V : Type} [Fintype V] [DecidableEq V] [Nonempty V] (G : SimpleGraph V)
     [DecidableRel G.Adj] (hdeg : ∀ x, 2 ≤ G.degree x) (hgirth : 6 ≤ G.egirth) : ¬ IsColourDense 3 G := by
   intro h
@@ -325,10 +324,10 @@ theorem J_not_transitive (n : ℕ) (hn : 3 ≤ n) :
 end JNotDense
 
 open JNotDense in
-/-- Remark 4.8 (iii), v3.90 l. 726-733: "J_ℓ is connected, has more than three vertices and girth 6, and has minimum
-degree at least 2: each v_i has a neighbour on the path and a neighbour a_j, and each a_j has at least two neighbours
-on the path. It is not a disjoint union of cliques, and no identification as in the definition of 3-colour-dense
-graphs applies to it; so it is not 3-colour-dense." -/
+/-- Remark 4.8 (iii), v4.24 l. 779-785: "The graph J_ℓ is connected, has more than three vertices and girth 6, and has
+minimum degree at least 2, since each v_i has a neighbour on the path and a neighbour a_j, and each a_j has at least two
+neighbours on the path. It is not a disjoint union of cliques, so it suffices to show that no S, u, v and D have the
+first three properties." -/
 theorem rem_4_8_iii_proved (n : ℕ) (hn : 15 ≤ n) :
     (Jgraph n).Connected ∧ 3 < Fintype.card (Fin n ⊕ Fin 4) ∧ (Jgraph n).egirth = 6 ∧
       (∀ i : Fin n, (∃ i' : Fin n, (Jgraph n).Adj (.inl i) (.inl i')) ∧ ∃ j : Fin 4, (Jgraph n).Adj (.inl i) (.inr j)) ∧

@@ -1,9 +1,9 @@
 /-
-Cereceda/Bip/MuV40.lean — Section 3 of short v3.90 (l. 491-547): Lemma 3.6, the greedy `μ` of Definition 3.7,
+Cereceda/Bip/MuV40.lean — Section 3 of short v4.24 (l. 508-564): Lemma 3.6, the greedy `μ` of Definition 3.7,
 Proposition 3.8, and the step of the proof of Theorem 3.1.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
-Route = the paper's (v3.90 l. 491-547). Lemma 3.6 (a), (b) are `Bip.fixed2_out_fixed` / `Bip.high_two_has_fixed`
+Route = the paper's (v4.24 l. 508-564). Lemma 3.6 (a), (b) are `Bip.fixed2_out_fixed` / `Bip.high_two_has_fixed`
 (Bip/SidesFacts.lean) plus the fact that an out-neighbour of a vertex on 2 is not on 2 (`greedy_out_ne`). Proposition 3.8: `Bip.mu_step` is the induction step of the paper's
 proof (a candidate for `μ(v)` exists; a fixed `v` has the candidate `α(v)`); `Bip.greedyMu` builds `μ` by recursion
 along the instance order (least candidate among `0, 1, 2, 3`); uniqueness by strong induction on the rank.
@@ -18,7 +18,7 @@ namespace Bip
 
 variable {W : Type} [Fintype W] [DecidableEq W]
 
-/-- `y` is a candidate for `μ(v)` (Definition 3.7, v3.90 l. 514-517), given the values of `μ` on the out-neighbours of `v`. -/
+/-- `y` is a candidate for `μ(v)` (Definition 3.7, v4.24 l. 530-533), given the values of `μ` on the out-neighbours of `v`. -/
 def MuCand (I : Instance W) (α β μ : W → Fin 4) (v : W) (y : Fin 4) : Prop :=
   y ∈ I.L v ∧ max (α v) (β v) ≤ y ∧ ∀ u ∈ I.out v, μ u ≠ y
 
@@ -40,7 +40,7 @@ variable {I : Instance W} {α β : W → Fin 4} (hg0 : I.g = 0) (hα : I.IsGreed
   {side : W → Fin 2} (hside : IsProperFn I.graph side)
 
 include hg0 hα hβ hside in
-/-- Lemma 3.6 (a), v3.90 l. 493: every out-neighbour of a vertex fixed on 2 is fixed on 0 or on 1. -/
+/-- Lemma 3.6 (a), v4.24 l. 510: every out-neighbour of a vertex fixed on 2 is fixed on 0 or on 1. -/
 theorem twofacts_a {v : W} (hfix : IsFixed α β v) (h2 : α v = 2) {p : W} (hp : p ∈ I.out v) :
     IsFixed α β p ∧ (α p = 0 ∨ α p = 1) := by
   have hv := ne_sink_of_fixed I hα hβ hfix
@@ -54,7 +54,7 @@ theorem twofacts_a {v : W} (hfix : IsFixed α β v) (h2 : α v = 2) {p : W} (hp 
   decide
 
 include hg0 hα hβ hside in
-/-- Lemma 3.6 (b), v3.90 l. 494-495: a vertex with two out-neighbours, not fixed, with the colour 2 at one end, has an
+/-- Lemma 3.6 (b), v4.24 l. 511-512: a vertex with two out-neighbours, not fixed, with the colour 2 at one end, has an
 out-neighbour fixed on 0 or on 1. -/
 theorem twofacts_b {v : W} (hc : (I.out v).card = 2) (hnf : ¬ IsFixed α β v) (h2 : α v = 2 ∨ β v = 2) :
     ∃ p ∈ I.out v, IsFixed α β p ∧ (α p = 0 ∨ α p = 1) := by
@@ -82,7 +82,7 @@ theorem twofacts_b {v : W} (hc : (I.out v).card = 2) (hnf : ¬ IsFixed α β v) 
   · exact ⟨b, hb, hf, val b hb hf⟩
 
 include hg0 hα hβ hside in
-/-- The induction step of the proof of Proposition 3.8 (v3.90 l. 523-542): if `μ` is right on the out-neighbours of `v ≠ s`, then a candidate
+/-- The induction step of the proof of Proposition 3.8 (v4.24 l. 539-559): if `μ` is right on the out-neighbours of `v ≠ s`, then a candidate
 for `μ(v)` exists, and a fixed `v` has the candidate `α(v)`. -/
 theorem mu_step {μ : W → Fin 4} {v : W} (hv : v ≠ I.sink)
     (hb : ∀ u ∈ I.out v, (u = I.sink → μ u = I.x) ∧
@@ -265,7 +265,7 @@ theorem leastOf_spec (C : Fin 4 → Prop) [DecidablePred C] (h : ∃ y, C y) :
     · exact le_rfl
 
 open Classical in
-/-- Definition 3.7 (v3.90 l. 514-517) by recursion along the instance order: `μ(s) = x`; `μ(v)` = the least candidate. -/
+/-- Definition 3.7 (v4.24 l. 530-533) by recursion along the instance order: `μ(s) = x`; `μ(v)` = the least candidate. -/
 noncomputable def greedyMu (I : Instance W) (α β : W → Fin 4) (v : W) : Fin 4 :=
   if v = I.sink then I.x
   else leastOf (fun y => y ∈ I.L v ∧ max (α v) (β v) ≤ y ∧
@@ -344,7 +344,7 @@ theorem greedyMu_unique {I : Instance W} {α β μ₁ μ₂ : W → Fin 4} (h₁
 
 end Bip
 
-/-- Lemma 3.6 (lem:twofacts), v3.90 l. 491-496. -/
+/-- Lemma 3.6 (lem:twofacts), v4.24 l. 508-513. -/
 theorem lem_3_6_v40_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hnr : I.NoRoots)
     (hbip : I.graph.IsBipartite) (hg0 : I.g = 0) (α β : W → Fin 4)
     (hα : I.IsGreedy I.x α) (hβ : I.IsGreedy I.g β) :
@@ -357,7 +357,7 @@ theorem lem_3_6_v40_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance 
   exact ⟨fun v hfix h2 p hp => Bip.twofacts_a hg0 hα hβ hside hfix h2 hp,
     fun v hc hnf h2 => Bip.twofacts_b hg0 hα hβ hside hc hnf h2⟩
 
-/-- Proposition 3.8 (prop:mu), v3.90 l. 519-521: `μ` of Definition 3.7 exists and is unique, and
+/-- Proposition 3.8 (prop:mu), v4.24 l. 535-537: `μ` of Definition 3.7 exists and is unique, and
 `μ(v) = α(v)` for every fixed vertex `v`. -/
 theorem prop_3_8_v40_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hnr : I.NoRoots)
     (hbip : I.graph.IsBipartite) (hg0 : I.g = 0) (α β : W → Fin 4)
@@ -376,7 +376,7 @@ theorem prop_3_8_v40_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance
   rw [Bip.greedyMu_unique hμ hG v]
   exact (hgood v (Bip.ne_sink_of_fixed I hα hβ hfix)).2.2 hfix
 
-/-- Proof of Theorem 3.1, v3.90 l. 545-547: the greedy `μ` satisfies the hypotheses of Lemma 3.4. -/
+/-- Proof of Theorem 3.1, v4.24 l. 562-564: the greedy `μ` satisfies the hypotheses of Lemma 3.4. -/
 theorem thm_3_1_mu_v40_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hnr : I.NoRoots)
     (hbip : I.graph.IsBipartite) (hg0 : I.g = 0) (α β : W → Fin 4)
     (hα : I.IsGreedy I.x α) (hβ : I.IsGreedy I.g β) (μ : W → Fin 4) (hμ : IsGreedyMu I α β μ) :

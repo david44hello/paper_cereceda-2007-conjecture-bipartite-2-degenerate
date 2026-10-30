@@ -1,6 +1,6 @@
 /-
-Cereceda/Setting/CaseAPaper.lean — the paper's own route of Lemma 2.3 (heights on T, |E(v)| <= 4, Lemma 2.4; short v3.90
-l. 307-346 and 404).
+Cereceda/Setting/CaseAPaper.lean — the paper's own route of Lemma 2.3 (heights on T, |E(v)| <= 4, Lemma 2.4; short v4.24
+l. 331-375 and 430-431).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 Proof plan. For a greedy colouring `c`, the colour heights `hcol`: `1 ↦ 1`, `2 ↦ 2`, `3 ↦ 0` (and `0 ↦ 0`) form a height of
@@ -189,7 +189,7 @@ lemma anc_walk (hα : I.IsGreedy I.x α) {u v : W} (p : (I.fGraph α).Walk u v) 
         exact hrest
     · exact Relation.ReflTransGen.head ⟨hu', hαu⟩ hu
 
-/-- (Claim 2, v3.90 l. 321-322) A vertex of `T` other than the sink has a parent, hence the colours `1, 2, 3` in its list. -/
+/-- (Claim 2, v4.24 l. 347-348) A vertex of `T` other than the sink has a parent, hence the colours `1, 2, 3` in its list. -/
 lemma lists_T (hα : I.IsGreedy I.x α) {v : W} (hv : (I.fGraph α).Reachable I.sink v) (hvs : v ≠ I.sink) :
     ∀ z, z ≠ 0 → z ∈ I.L v := by
   obtain ⟨p⟩ := hv

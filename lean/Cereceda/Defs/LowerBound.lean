@@ -3,8 +3,8 @@ Cereceda/Defs/LowerBound.lean — the graphs H_n and J_n of Section 4, their col
 functions on the path, and a straight-line drawing (for "planar").
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
-TRUST SURFACE: read against short v3.90 Section 4 (l. 574-734: `H_ℓ` l. 580-584; `σ±`, plain colourings and height
-functions l. 591-596; `J_ℓ` l. 672-674 and 682). Lean's `n` is the paper's ℓ (the number of path vertices).
+TRUST SURFACE: read against short v4.24 Section 4 (l. 589-810: `H_ℓ` l. 625-629; `σ±`, plain colourings and height
+functions l. 632 and 637-642; `J_ℓ` l. 717-721 and 730). Lean's `n` is the paper's ℓ (the number of path vertices).
 INDEXING: the path vertex `Sum.inl i` (`i : Fin n`, 0-based) is the paper's `v_{i+1}`.
 -/
 import Cereceda.Defs.Basic
@@ -37,7 +37,7 @@ a vertex `b = Sum.inr 1` joined to every `v_i` with `i` even (0-based index `i -
 abbrev Hgraph (n : ℕ) : SimpleGraph (Fin n ⊕ Fin 2) :=
   pathApex n 2 (fun i => ⟨i.val % 2, Nat.mod_lt _ (by norm_num)⟩)
 
-/-- `J_n` (paper Section 4.2, girth six; also defined in Section 1, v3.90 l. 194-196): the path `v_1 ⋯ v_n` and four
+/-- `J_n` (paper Section 4.2, girth six; also described in Section 1, v4.24 l. 232-233): the path `v_1 ⋯ v_n` and four
 vertices `a_0, …, a_3` (`Sum.inr j`), where `a_j` is joined to every `v_i` with `i ≡ j (mod 4)` (0-based index `i - 1`, so `j = (index + 1) % 4`). -/
 abbrev Jgraph (n : ℕ) : SimpleGraph (Fin n ⊕ Fin 4) :=
   pathApex n 4 (fun i => ⟨(i.val + 1) % 4, Nat.mod_lt _ (by norm_num)⟩)

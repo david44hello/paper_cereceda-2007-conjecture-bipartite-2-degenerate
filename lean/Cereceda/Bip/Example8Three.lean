@@ -1,6 +1,6 @@
 /-
-Cereceda/Bip/Example8Three.lean — the instance `ex8` of open problem 1 (short v3.90 l. 743-752): a 13-move sequence from
-α to β in which one vertex moves three times and every other vertex at most twice (not stated in v3.90).
+Cereceda/Bip/Example8Three.lean — the instance `ex8` of open problem 1 (short v4.24 l. 819-828): a 13-move sequence from
+α to β in which one vertex moves three times and every other vertex at most twice (not stated in v4.24).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.Example8

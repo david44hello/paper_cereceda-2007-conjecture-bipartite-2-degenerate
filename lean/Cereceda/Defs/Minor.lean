@@ -1,6 +1,6 @@
 /-
 Cereceda/Defs/Minor.lean — graph minors by minor models (branch sets), and the four branch sets of `J_ℓ` named in
-Remark 4.8 (i) (short v3.90 l. 718-720).
+Remark 4.8 (i) (short v4.24 l. 763-765).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 TRUST SURFACE. Mathlib has no graph minors. We use the standard definition by minor models: `G` has `H` as a minor
@@ -26,7 +26,7 @@ structure IsMinorModel {V W : Type} (H : SimpleGraph W) (G : SimpleGraph V) (B :
 def HasMinor {V W : Type} (G : SimpleGraph V) (H : SimpleGraph W) : Prop :=
   ∃ B : W → Set V, IsMinorModel H G B
 
-/-- The branch sets of the `K_4` minor of `J_n` in Remark 4.8 (i) (v3.90 l. 718-720): `{a_1, v_1, v_9, v_10, v_11}`,
+/-- The branch sets of the `K_4` minor of `J_n` in Remark 4.8 (i) (v4.24 l. 763-765): `{a_1, v_1, v_9, v_10, v_11}`,
 `{a_2, v_2}`, `{a_3, v_3}` and `{a_0, v_4, …, v_8}`, as `Jbranch n 0`, …, `Jbranch n 3`. As in `Jgraph`, the path
 vertex `v_i` is `Sum.inl` of the 0-based index `i - 1`, and `a_j` is `Sum.inr j`. -/
 def Jbranch (n : ℕ) (x : Fin 4) : Set (Fin n ⊕ Fin 4) :=

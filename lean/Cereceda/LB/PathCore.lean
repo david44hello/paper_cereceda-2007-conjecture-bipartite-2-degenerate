@@ -308,8 +308,8 @@ theorem move_height (hs : StepHeight n col h) (col' : ℕ → ZMod 3) (i : ℕ) 
     simp only [e1, ↓reduceIte, hsame (i + 1) e1]
     exact hvr hR
 
-/-- A change of one value by `2` changes `∑_{j<n} |h j - r j|` by at most `2` (paper, proof of Prop. 4.1, v3.90 l. 647: "each move
-changes `∑_i |h_j(i) - h_0(i)|` by at most `2`"). -/
+/-- A change of one value by `2` changes `∑_{j<n} |h j - r j|` by at most `2` (paper, proof of Prop. 4.1, v4.24 l. 693: "Each move
+thus changes `∑_i |h_j(i) - h_0(i)|` by at most `2`"). -/
 theorem l1_step (r h h' : ℕ → ℤ) (i : ℕ) (hh : ∀ j, j ≠ i → h' j = h j) (hv : |h' i - h i| = 2) :
     ∑ j ∈ Finset.range n, |h' j - r j| ≤ ∑ j ∈ Finset.range n, |h j - r j| + 2 := by
   have hterm : ∀ j ∈ Finset.range n, |h' j - r j| ≤ |h j - r j| + (if j = i then 2 else 0) := by
@@ -364,7 +364,8 @@ theorem sum_lin (N : ℤ) : ∀ M : ℕ,
   | succ M ih => rw [Finset.sum_range_succ, ih]; push_cast; ring
 
 /-- Proposition 4.1, first case ("If `a` and `b` never move"): `h` has all steps `+1`, `g` all steps `-1`; then
-`∑_{i<n} |g i - h i| ≥ (n² - 1)/2`, here as `n² - 1 ≤ 2 ∑ |g - h|` (paper: `∑|f| ≥ 2⌊n/2⌋(n - ⌊n/2⌋) ≥ (n²-1)/2`). -/
+`∑_{i<n} |g i - h i| ≥ (n² - 1)/2`, here as `n² - 1 ≤ 2 ∑ |g - h|` (Lean's own count, by the pairs `{k, n - 1 - k}`; the
+paper gets the weaker `(ℓ-2)²/2` from Lemma 4.4 with `q = 2ℓ - 4`). -/
 theorem full_reversal (h g : ℕ → ℤ)
     (hh : ∀ i, i + 1 < n → h (i + 1) - h i = 1) (hg : ∀ i, i + 1 < n → g (i + 1) - g i = -1) :
     (n : ℤ) ^ 2 - 1 ≤ 2 * ∑ i ∈ Finset.range n, |g i - h i| := by

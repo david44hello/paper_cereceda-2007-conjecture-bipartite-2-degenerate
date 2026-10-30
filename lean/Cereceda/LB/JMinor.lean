@@ -1,6 +1,6 @@
 /-
 Cereceda/LB/JMinor.lean — a `K_m` minor forces treewidth at least `m - 1`; `J_ℓ` has `K_4` as a minor, so its treewidth
-is at least `3` (short v3.90 l. 718-720).
+is at least `3` (short v4.24 l. 763-765).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 Route. For a minor model `B` of `K_m` in `G` and a tree decomposition `D` of `G`, the nodes whose bag meets `B x` form a
@@ -136,7 +136,7 @@ end JMinor
 
 open JMinor
 
-/-- The step "It has `K_4` as a minor, so its treewidth is at least `3`" of Remark 4.8 (i) (v3.90 l. 718), for any
+/-- The step "Its treewidth is at least `3`, since it has `K_4` as a minor" of Remark 4.8 (i) (v4.24 l. 763), for any
 `m`: a graph with a `K_m` minor (a minor model `B` of `K_m`) has treewidth at least `m - 1`. -/
 theorem treewidth_ge_of_minorModel {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) (m : ℕ)
     (B : Fin m → Set V) (hB : IsMinorModel (⊤ : SimpleGraph (Fin m)) G B) : m - 1 ≤ treewidth G := by
@@ -145,7 +145,7 @@ theorem treewidth_ge_of_minorModel {V : Type} [Fintype V] [DecidableEq V] (G : S
   rintro w ⟨ι, _, D, rfl⟩
   exact le_width D hB
 
-/-- Sanity test of `IsMinorModel` (Remark 4.8 (i), v3.90 l. 718-720, uses minor models): every complete graph `K_m` is a
+/-- Sanity test of `IsMinorModel` (Remark 4.8 (i), v4.24 l. 763-765, uses minor models): every complete graph `K_m` is a
 minor of itself, with the singletons `{x}` as branch sets. -/
 theorem minorModel_complete_self (m : ℕ) :
     IsMinorModel (⊤ : SimpleGraph (Fin m)) (⊤ : SimpleGraph (Fin m)) (fun x => {x}) where
@@ -154,7 +154,7 @@ theorem minorModel_complete_self (m : ℕ) :
   connected x := connected_of_center (c := x) rfl (fun _ hw => Or.inl hw)
   adj x y h := ⟨x, rfl, y, rfl, h⟩
 
-/-- Sanity test of `HasMinor` (Remark 4.8 (i), v3.90 l. 718-720, uses minors): the triangle `K_3` has no `K_4` minor,
+/-- Sanity test of `HasMinor` (Remark 4.8 (i), v4.24 l. 763-765, uses minors): the triangle `K_3` has no `K_4` minor,
 since four disjoint nonempty branch sets do not fit in three vertices. -/
 theorem not_hasMinor_K4_of_K3 : ¬ HasMinor (⊤ : SimpleGraph (Fin 3)) (⊤ : SimpleGraph (Fin 4)) := by
   rintro ⟨B, hB⟩
@@ -202,8 +202,8 @@ lemma treewidth_cycle4_le : treewidth (SimpleGraph.cycleGraph 4) ≤ 2 := by
 
 end JMinor
 
-/-- Sanity test of `HasMinor` and of `treewidth_ge_of_minorModel` (Remark 4.8 (i), v3.90 l. 718: "It has `K_4` as a
-minor, so its treewidth is at least `3`"): the 4-cycle has a tree decomposition of width `2`, so it has no `K_4`
+/-- Sanity test of `HasMinor` and of `treewidth_ge_of_minorModel` (Remark 4.8 (i), v4.24 l. 763: "Its treewidth is at
+least `3`, since it has `K_4` as a minor"): the 4-cycle has a tree decomposition of width `2`, so it has no `K_4`
 minor. -/
 theorem not_hasMinor_K4_of_cycle4 : ¬ HasMinor (SimpleGraph.cycleGraph 4) (⊤ : SimpleGraph (Fin 4)) := by
   rintro ⟨B, hB⟩
@@ -292,7 +292,7 @@ lemma jbranch_minorModel (hn : 11 ≤ n) : IsMinorModel (⊤ : SimpleGraph (Fin 
 
 end JMinor
 
-/-- Remark 4.8 (i) (v3.90 l. 718-720): "(i) It has `K_4` as a minor, so its treewidth is at least `3`: the sets
+/-- Remark 4.8 (i) (v4.24 l. 763-765): "(i) Its treewidth is at least `3`, since it has `K_4` as a minor: the sets
 `{a_1, v_1, v_9, v_10, v_11}`, `{a_2, v_2}`, `{a_3, v_3}` and `{a_0, v_4, ..., v_8}` are disjoint, each induces a
 connected subgraph, and any two of them are joined by an edge." (`Jbranch n 0`, ..., `Jbranch n 3` are these four
 sets; `ℓ = n ≥ 15`.) -/

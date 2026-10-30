@@ -1,9 +1,8 @@
 # AUDIT NOTES — Lean formalization of "The Cereceda (2007) conjecture holds for bipartite 2-degenerate graphs"
-## version 1.71 - 2026-10-29 09:10 ET — section 6: the old README's lines, word for word (the README now says only what to install, run and see).
+## version 1.81 - 2026-10-30 12:40 ET — v4.24: two quotes made literal (l. 40-41, l. 76).
+## version 1.71 - 2026-10-30 07:30 ET — against v4.24: refs moved, quotes; Remark 4.9; route lines.
 ## version 1.61 - 2026-10-28 21:31 ET — against v3.90 = FINAL (refs moved; [BH22] wordings).
 ## version 1.51 - 2026-10-28 19:00 ET — against v3.80 (refs moved; OAT steps; C = the largest constant; report clauses).
-## version 1.41 - 2026-10-28 18:20 ET — against v3.60: G_0 removed (v3.50); Remark 4.8 (J_ℓ), minor models, Cereceda's form.
-## version 1.31 - 2026-10-28 14:55 ET — against the paper (short version) v3.10.
 
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
@@ -12,11 +11,11 @@ the lines of the paper where the claim is made, its status (PROVED, or PROVED-FR
 below) and its axioms. `scripts/check.sh --final` rebuilds the project and reruns all checks.
 
 ## 1. What is formalized
-Every claim of the paper (v3.90, FINAL) is stated in `Cereceda/Paper/Statements.lean`, one theorem per claim, and proved: the
-numbered results, the claims made in the text (Section 1 on the classes (i)-(v), the witness J_ℓ of Remark 4.8, the OAT and
-distance-hereditary graphs, the planar bipartite case; the remarks; the open problems), and the steps of a proof where
+Every claim of the paper (v4.24) is stated in `Cereceda/Paper/Statements.lean`, one theorem per claim, and proved: the
+numbered results, the claims made in the text (Section 1 on the classes (i)-(v), the witness J_ℓ of Remark 4.8, the
+distance-hereditary and OAT graphs of Remark 4.9, the planar bipartite case; the remarks; the open problems), and the steps of a proof where
 the Lean proof of the result takes another route. The docstring of each theorem names the paper's number and its lines
-in v3.90 ("v3.90 l. N"). A few rows have no paper line: they tie a Lean definition to the paper's definition (for
+in v4.24 ("v4.24 l. N"). A few rows have no paper line: they tie a Lean definition to the paper's definition (for
 example `grundyNumber_spec`, `degenerate_iff_subgraph`, `def_2_2_singleSink_iff`); `AUDIT.md` counts them apart as
 "Lean-only".
 Three rows prove a deduction of the paper for every class of graphs with properties that the paper takes from planar
@@ -31,8 +30,9 @@ quotes the source verbatim, with its line numbers):
 - `Cited.cer07_thm522` = L. Cereceda, Mixing graph colourings, PhD thesis (LSE 2007), Theorem 5.22: "For a graph G with
   n vertices and k ≥ 2 deg(G) + 1, the diameter of C_k(G) is O(n²)", in its weakest form (one constant for each pair
   d, k with k ≥ 2d + 1) and with the thesis's convention k ≥ 2. Used where the paper relies on [Cer07, Thm. 5.22]:
-  the conjecture for the class for every k ≥ 5 and for d = 1, "this settles d = 1", "for d = 2 it leaves only k = 4
-  open", the planar bipartite case (d ≤ 2), and open problem 1's "would prove the Cereceda (2007) conjecture for d = 2".
+  the conjecture for the class for every k ≥ 5 and for d = 1 ("which covers d = 1", v4.24 l. 111; "For d = 2, the
+  conjecture was known to hold for k ≥ 5 by a result of Cereceda", l. 40-41), the planar bipartite case (d ≤ 2), and open
+  problem 1's "a positive answer would prove Conjecture 1.1 for d = 2" (l. 817).
 - `Cited.bh22_thm1_quadratic` = M. Bousquet and M. Heinrich, A polynomial version of Cereceda's conjecture
   (arXiv:1903.05619v1), Theorem 1, first bullet ("Cn² if k ≥ (3/2)(d + 1)"), with a constant for each pair d, k. Used
   for the planar bipartite case with degeneracy 3 and k ≥ 6 (`intro_planar_bipartite_deduction`,
@@ -40,9 +40,10 @@ quotes the source verbatim, with its line numbers):
 - `Cited.bjlpp14_thm8` and `Cited.bjlpp14_thm10` = M. Bonamy, M. Johnson, I. Lignos, V. Patel, D. Paulusma,
   Reconfiguration graphs for vertex colourings of chordal and chordal bipartite graphs, J. Comb. Optim. 27 (2014),
   Theorem 8 (the inclusion half: every chordal bipartite graph is semi-false) and Theorem 10 (every semi-false graph is
-  2-colour-dense), on a nonempty finite vertex type. Used for "semi-false graphs lie in (iii)" (Theorem 10, with the
-  paper's "2-colour-dense graphs are also 3-colour-dense", which is proved: `colourDense_two_three`), for the bipartite
-  OAT graphs (Theorem 10) and for the bipartite distance-hereditary graphs (Theorems 8 and 10).
+  2-colour-dense), on a nonempty finite vertex type. Used in Remark 4.9 for the semi-false graphs, which lie in (iii) (Theorem 10, with
+  the paper's "2-colour-dense graphs, which are also 3-colour-dense", v4.24 l. 790-791, which is proved:
+  `colourDense_two_three`), for the bipartite OAT graphs (Theorem 10) and for the bipartite distance-hereditary graphs
+  (Theorems 8 and 10).
 [BH22, Theorem 2] ("Let G be a planar bipartite graph. The diameter of G(G, 5) is at most 4n².") is not an axiom: it is
 about planar graphs, which Mathlib does not have, so it is a hypothesis of the planarity-free rows
 `intro_planar_bipartite_deduction` and `intro_planar_known_cases`.
@@ -57,14 +58,14 @@ Minor, Degeneracy}.lean`, and the definitions at the top of `Statements.lean` (`
 Choices worth knowing:
 - Graph minors (Defs/Minor.lean; Mathlib has none) are minor models: `IsMinorModel H G B` says the branch sets `B x` are
   nonempty, pairwise disjoint, each induces a connected subgraph of G, and G has an edge between `B x` and `B y` for every
-  edge xy of H; this is the standard definition and the form Remark 4.8 (i) uses (v3.90 l. 718-720). `Jbranch` is the
+  edge xy of H; this is the standard definition and the form Remark 4.8 (i) uses (v4.24 l. 763-765). `Jbranch` is the
   paper's four sets. Sanity tests (LB/JMinor.lean): K_m has a K_m minor model (`minorModel_complete_self`); K_3 and the
   4-cycle have no K_4 minor (`not_hasMinor_K4_of_K3`, `not_hasMinor_K4_of_cycle4`). "So its treewidth is at least 3"
   follows the paper: a minor model of K_m gives treewidth at least m − 1 (`treewidth_ge_of_minorModel`, with a Helly
   lemma for subtrees of a tree).
-- `degeneracy` (Defs/Degeneracy.lean) is "the least d for which it is d-degenerate" (v3.90 l. 64-65).
-  `CerecedaConjectureDegeneracy` is Cereceda's form of Conjecture 1.1. The paper's sentence "for graphs with at least one
-  edge, the two forms are equivalent" (l. 76-78) is `conj_1_1_forms_equivalent` (both forms restricted to graphs with an
+- `degeneracy` (Defs/Degeneracy.lean) is "the least d for which it is d-degenerate" (v4.24 l. 64-65).
+  `CerecedaConjectureDegeneracy` is Cereceda's form of Conjecture 1.1. The paper's sentence "The two forms are equivalent for
+  graphs with at least one edge" (l. 76-78) is `conj_1_1_forms_equivalent` (both forms restricted to graphs with an
   edge); the Lean-only row `conj_1_1_forms_all_graphs` proves the equivalence for all graphs too (graphs without edges
   have diam R_k(G) ≤ n, proved directly).
 - `diam R_k(G) ≤ B` is stated with Mathlib's `ediam` (⊤ when R_k(G) is disconnected), so an upper bound includes
@@ -72,11 +73,11 @@ Choices worth knowing:
 - "Planar" is proved as "has a straight-line drawing in the plane in which edges meet only at common ends"
   (`IsStraightLinePlanar`); this implies planarity under every usual definition. It is proved for H_ℓ.
 - Class (iii), `IsColourDense` (Defs/ColourDense.lean), is the definition of [BJLPP14, Section 3], with the separator
-  condition, which v3.90 l. 151-158 states.
+  condition, which Remark 4.8 states (v4.24 l. 772-778).
 - `IsSemiFalse` (Defs/Classes.lean) is the construction order of the semi-false graphs; `IsOAT` (Defs/OAT.lean) is
-  built by the four operations of v3.90 l. 180-182 and is closed under isomorphism.
-- `IsDegenerate` quantifies over nonempty vertex sets; `degenerate_iff_subgraph` proves it equals "every nonempty
-  subgraph has a vertex of degree at most d".
+  built by the four operations of Remark 4.9 (v4.24 l. 800-802) and is closed under isomorphism.
+- `IsDegenerate` quantifies over nonempty vertex sets; `degenerate_iff_subgraph` proves it equals the paper's
+  "every non-empty subgraph has a vertex of degree at most d" (v4.24 l. 52).
 - Greedy colourings, sequences and μ are predicates; their existence (and uniqueness where claimed) are separate proved
   claims. `Instance.IsGreedy` mentions only the sink, the out-neighbours and the lists, never the instance order; so
   Definition 2.2's "α and β depend only on the out-neighbours and the lists, not on the instance order" holds by the
@@ -90,8 +91,11 @@ Choices worth knowing:
 ## 4. Where a Lean proof differs from the paper's proof (the claim is the same)
 Where the route differs, the paper's steps are rows of their own:
 - Bipartite OAT graphs are semi-false (`intro_oat_semiFalse`): Lean passes bipartiteness down along subgraph maps; the
-  paper's steps "every graph built along the way is an induced subgraph of the final graph" and "Such a join is a
-  complete bipartite graph" (v3.90 l. 182-186) are `intro_oat_induced` and `intro_oat_join_completeBipartite`.
+  paper's steps "every graph built along the way is an induced subgraph of the final graph" and "So the join is a
+  complete bipartite graph" (v4.24 l. 802-805) are `intro_oat_induced` and `intro_oat_join_completeBipartite`.
+- The join of two edgeless graphs, K_{m,n}, is semi-false (`intro_completeBipartite_semiFalse`): Lean builds it directly
+  by the semi-false operations; the paper's reason is "it is chordal bipartite and therefore semi-false" (Remark 4.9,
+  l. 805, with [BJLPP14, Thm. 8]), which Lean does not use here.
 - Lemma 2.3 is proved along the paper's proof, step by step (`lem_2_3_K`, `lem_2_3_fGraph_eq`, `lem_2_3_F1`,
   `lem_2_3_F2`, `lem_2_3_heights`, `lem_2_3_height_extend`, `lem_2_3_outside`, `lem_2_3_offsets`, `lem_2_3_E_bound`,
   `lem_2_3_paper_route`), joined in `sec3_caseA_counts`. Two steps the Lean proof does not need are rows of their own:
@@ -111,42 +115,52 @@ Where the route differs, the paper's steps are rows of their own:
   proved for any graph with given heights (the tree hypothesis is kept, but not needed). Lemma 3.4: one general sweep
   lemma, applied twice.
 - "Single-sink" (Definition 2.2) is the predicate `NoRoots`; `def_2_2_singleSink_iff` proves the two are the same.
+- Lemma 3.5: the paper's proof treats the patterns (2,1) and (1,2) directly (v4.24 l. 494-500); the Lean proof (same
+  induction along the instance order) excludes the other side by contradiction. The proof's claims "a leaver lies in
+  S_1, a joiner other than s lies in S_0, a vertex with the pattern (2,1) lies in S_1, and a vertex with the pattern
+  (1,2) lies in S_0" (l. 491-493) are the row `lem_3_5_equiv`.
+- Lemma 3.6(b): the paper's proof uses only the sides of the two out-neighbours (l. 523-527); the Lean proof splits on
+  the side and the pattern of the vertex itself. The statement is the same (`lem_3_6`).
+- Propositions 4.1 and 4.6, the case where no additional vertex moves: the paper applies Lemma 4.4 with q = 2ℓ − 4 and
+  gets at least (ℓ−2)²/4 moves (l. 693-696, 754-755); Lean counts the full reversal of the height directly and gets at
+  least (ℓ²−1)/4 moves, which is more. The other case follows the paper (Lemma 4.3, resp. 4.7, then Lemma 4.4 before the
+  first and after the last move of an additional vertex).
 - Hypotheses kept as in the paper but not needed by the Lean proofs: "single-sink" in Lemma 3.5; one plainness
   hypothesis in Lemma 4.2; the tree hypothesis of Lemma 2.4; "g = 0" in Lemmas 3.2 and 3.3 (Lean proves them without it).
 
 ## 5. Not formalized
-- Facts about planar graphs that need Euler's formula (Mathlib has no planar graphs): "planar bipartite graphs are
-  3-degenerate" (l. 118-119), "a planar graph of girth at least 7 has maximum average degree less than 14/5" (l.
-  761-762), "planar graphs of girth at least 6 are 2-degenerate" (l. 762-763), "a planar graph of girth 6 on n vertices
-  has at most 3(n-2)/2 edges", so J_ℓ is not planar for ℓ ≥ 9 and the girth-6 graphs of Proposition 1.3 are not planar
-  (l. 765-768). Where the paper deduces something from them, the deduction is proved with the planarity fact as a
+- Facts about planar graphs that need Euler's formula (Mathlib has no planar graphs): "planar bipartite graphs, which
+  are 3-degenerate by Euler's formula" (v4.24 l. 117), "For planar graphs of girth at least 7 ... Such a graph has maximum
+  average degree less than 14/5" (l. 837-838), "Planar graphs of girth at least 6 are 2-degenerate" (l. 838-839), "By
+  Euler's formula, a planar graph of girth 6 on n vertices has at most 3(n-2)/2 edges", so J_ℓ is not planar for ℓ ≥ 9
+  and the girth-6 graphs of Proposition 1.3 are not planar (l. 842-844). Where the paper deduces something from them, the deduction is proved with the planarity fact as a
   hypothesis (`intro_planar_bipartite_deduction`, `intro_planar_known_cases`, `open_2_planar_girth6`), and the
   arithmetic is proved (`open_2_Jgraph_counts`: ℓ + 4 vertices, 2ℓ − 1 edges, 2ℓ − 1 > 3(ℓ+2)/2 for ℓ ≥ 9).
 - Results of other papers that the paper cites as background and that no proof uses: [BC09], [BP16], [BH22] (its other
-  bounds), [FJP16], [BFHR25], [BB18], [Feg21], [BLM21], [BBFHMP23], [BJLPP14, Prop. 9 and Thms. 2, 11, 12], and the
+  bounds), [FJP16], [BFHR25], [BB18], [Feg21], [BLM21], [BBFHMP23], [BJLPP14, Thms. 2, 11, 12], and the
   bounds of the classes (i)-(v). (The connectivity result of [DFFV06] is proved: `intro_connected`.)
-- Sentences that report what other authors wrote or noted: [BH22] "described this as proving the conjecture for planar
-  bipartite graphs" (v3.90 l. 118); "As Cranston and Mahmoud noted [CM24], this proves the conjecture for those of
-  degeneracy 3" (l. 119-120): the claim itself, the case d = 3, is part of `intro_planar_known_cases` (d ≥ 3); "Cereceda
+- Sentences that report results or remarks of other papers, used by no proof: "The Glauber dynamics, a Markov chain that
+  recolours one vertex at a time, can reach every k-colouring from every other exactly when R_k(G) is connected
+  [DFFV06, Cer07]" (v4.24 l. 63-64); [FJP16] "call this case 'a very challenging problem'" (l. 55-56); [BH22] "removing
+  the vertices of a full colour lowers the degeneracy by one, as they observe" (l. 177; the case the paper uses, d = 2
+  and the colour 0, is proved: `lem_2_3_zero_full`, `lem_2_3_F1`) and "note that it has a full colour (here the colour
+  0)" (l. 393); "For d = 2, Bousquet and Heinrich bound the moves for each new vertex by order n², which gives their
+  O(n³)" (l. 178-179); "close to the bound (ℓ²−1)/4 of [BJLPP14] for 3-colourings of a path" (l. 695-696); "The order n²
+  is best possible for every d when k = d+2": its diameter part is cited ("its (d+2)-recolouring graph has diameter of
+  order n² [BJLPP14, Thms. 11 and 12]", l. 113-114).
+- Sentences that report what other authors wrote or noted: [BH22]: "They describe this as proving the conjecture for planar
+  bipartite graphs" (v4.24 l. 118); "Cranston and Mahmoud noted that this result settles the case of degeneracy 3"
+  [CM24] (l. 118-119): the claim itself, the case d = 3, is part of `intro_planar_known_cases` (d ≥ 3); "Cereceda
   states it with d equal to the degeneracy of G" (l. 76; its content is the definition `CerecedaConjectureDegeneracy`);
-  the girth-6 graphs of Proposition 1.3 "do not rule out the linear bound for R_4 suggested in [BBFHMP23]" (l. 768-769); [BH22, Thm. 1] is "the first
-  polynomial bound for d+2 colours when d ≥ 2" (l. 116).
-- Remarks that compare with another paper's definitions or proofs, used by no proof: "The winding ... is the weight of the
-  path oriented from v_1 to v_ℓ in the sense of [CvdHJ11]" (Section 4); "The proof of [BH22, Lemma 9] goes in our order,
-  v_1, v_2, …, a fixed number of vertices at a time, and at each step recolours only vertices already treated" (v3.90
-  l. 222-223).
-- Descriptive sentences: the comparison table's "best result before this paper", "to our knowledge", "we know of no
-  earlier use of this graph in recolouring", and Remark 3.9's sentence about the proof itself, "Bipartiteness is used only through the sides
-  S_0 and S_1, in Lemmas 3.5 and 3.6" (the remark's mathematical claims are proved: `rem_3_9`). In Lean, the statements
+  [BBFHMP23] "remarked after that theorem that R_4(G) may also have linear diameter. The graphs J_ℓ do not rule out this
+  linear bound" (l. 841-842); "For d+2 colours and d ≥ 2, the first polynomial bound ... is due to Bousquet and
+  Heinrich [BH22, Thm. 1]" (l. 114-115).
+- Remarks that compare with another paper's definitions or proofs, used by no proof: "We define the winding of c as W = h(ℓ) − h(1).
+  It does not depend on the choice of h and is the weight of the path oriented from v_1 to v_ℓ in the sense of [CvdHJ11]"
+  (v4.24 l. 641-642); "In the proof of [BH22, Lemma 9], Bousquet and Heinrich go in our order, v_1, v_2, …, a fixed
+  number of vertices at a time, and recolour only vertices already treated" (l. 173-174).
+- Descriptive sentences: the comparison table's "Best result before this paper", "to our knowledge", "we know of no
+  earlier use of this graph in recolouring", and Remark 3.9's clause about the proof itself, "Without bipartiteness, which we used only in
+  Lemmas 3.5 and 3.6" (l. 568) (the remark's mathematical claims are proved: `rem_3_9`). In Lean, the statements
   of Section 3 that assume bipartiteness are Lemma 3.5 (`lem_3_5`, `lem_3_5_equiv`, which take a proper 2-colouring
   `side`: the sides S_0 and S_1), Lemma 3.6 (`lem_3_6`), Proposition 3.8 (`prop_3_8`) and Theorem 3.1.
-
-## 6. From the old README
-
-This folder is the Lean 4 proof of the paper's results (version 3.90). It assumes results of three other works, each quoted from its source in `Cereceda/Cited/`: Theorem 5.22 of Cereceda's PhD thesis (2007), Theorem 1 of Bousquet and Heinrich (2022), and Theorems 8 and 10 of Bonamy, Johnson, Lignos, Patel and Paulusma (2014). Three statements also take a fact about planar graphs as an explicit hypothesis (one of them is Theorem 2 of Bousquet and Heinrich); Lean does not prove these facts. `AUDIT.md` gives each of the 122 claims of the paper with its status in Lean: 111 proved, 8 proved from the cited results, 3 proved given a planar-graph fact, 0 open. `AUDIT_NOTES.md` lists what is not formalized and where the Lean proof takes another route.
-
-Build, from this folder: `lake exe cache get && lake build` (Lean 4 v4.35.0, Mathlib commit 56a005855ea1).
-
-For the paper "The Cereceda (2007) conjecture holds for bipartite 2-degenerate graphs" by Dave Goel. The paper's link
-will be added here when it is posted. An expanded version of this paper, with many other results, is posted on Zenodo:
-https://doi.org/10.5281/zenodo.23603237

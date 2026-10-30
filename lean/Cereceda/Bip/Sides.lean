@@ -1,11 +1,12 @@
 /-
-Cereceda/Bip/Sides.lean — Section 3 of the paper (short v3.90): a single-sink instance is connected (l. 451); Lemma 3.5
-(sides, l. 455-458) and the joiner and leaver facts of its proof (l. 462-466).
+Cereceda/Bip/Sides.lean — Section 3 of the paper (short v4.24): a single-sink instance is connected (l. 480); Lemma 3.5
+(sides, l. 484-487) and the joiner and leaver facts of its proof (l. 491-495).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 Lemma 3.5 is proved by strong induction on the rank (the instance order), as in the paper; the step derives four facts (a leaver
 is away from the sink, a joiner other than `s` on the sink's side, no `(2,1)` on the sink's side, no `(1,2)` away from
-it) and a finite check closes it. The hypothesis "single-sink" (`NoRoots`) is not used.
+it) and a finite check closes it. (The paper treats the patterns `(2,1)` and `(1,2)` directly, l. 494-500; Lean
+excludes the other side by contradiction.) The hypothesis "single-sink" (`NoRoots`) is not used.
 -/
 import Cereceda.Bip.Basic
 
@@ -152,13 +153,13 @@ theorem reach_sink (I : Instance W) (hnr : I.NoRoots) (v : W) : I.graph.Reachabl
 
 end Bip
 
-/-- Section 3, v3.90 l. 451: a single-sink instance (`NoRoots`) is connected (every vertex reaches `s`). -/
+/-- Section 3, v4.24 l. 480: a single-sink instance (`NoRoots`) is connected (every vertex reaches `s`). -/
 theorem sec3_connected_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hnr : I.NoRoots) :
     I.graph.Connected := by
   have : Nonempty W := ⟨I.sink⟩
   exact ⟨fun u v => (Bip.reach_sink I hnr u).trans (Bip.reach_sink I hnr v).symm⟩
 
-/-- **Lemma 3.5** (lem:sides), v3.90 l. 455-458 (with `g = 0`). -/
+/-- **Lemma 3.5** (lem:sides), v4.24 l. 484-487 (with `g = 0`). -/
 theorem lem_3_5_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hnr : I.NoRoots) (hg0 : I.g = 0)
     (side : W → Fin 2) (hside : IsProperFn I.graph side) (α β : W → Fin 4)
     (hα : I.IsGreedy I.x α) (hβ : I.IsGreedy I.g β) (v : W) :
@@ -169,7 +170,7 @@ theorem lem_3_5_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (
   have _hnr := hnr  -- the paper's hypothesis "single-sink"; the proof does not need it
   exact Bip.sides hg0 hα hβ hside v
 
-/-- Proof of Lemma 3.5, v3.90 l. 462-466: joiners lie on the side of `s`, leavers on the other side, and a vertex that
+/-- Proof of Lemma 3.5, v4.24 l. 491-495: joiners lie on the side of `s`, leavers on the other side, and a vertex that
 is not fixed and is on `0` neither in `α` nor in `β` has the pattern `(1,2)` on `S_0` and `(2,1)` on `S_1`. -/
 theorem lem_3_5_equiv_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hnr : I.NoRoots)
     (hg0 : I.g = 0) (side : W → Fin 2) (hside : IsProperFn I.graph side) (α β : W → Fin 4)

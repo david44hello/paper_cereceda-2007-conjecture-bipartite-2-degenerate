@@ -1,5 +1,5 @@
 /-
-Cereceda/Setting/ZeroFull.lean — in a greedy colouring of an instance with `0 < g`, the colour `0` is full (short v3.90 l. 310-311).
+Cereceda/Setting/ZeroFull.lean — in a greedy colouring of an instance with `0 < g`, the colour `0` is full (short v4.24 l. 336-337).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.Instance
@@ -26,9 +26,9 @@ theorem zero_mem_used_of_ne {L used : Finset (Fin 4)} {y : Fin 4} (hy : IsLeastF
 
 end ZeroFull
 
-/-- Short v3.90 l. 310-311 (proof of Lemma 2.3, where `0 < g < x`): "Thus the colour $0$ is full in $\alpha$ and in
-$\beta$: every vertex whose list contains $0$ is on $0$ or has an out-neighbour on $0$." Stated for every greedy
-colouring `c` (any sink colour `c0`); `α` is `IsGreedy I.x` and `β` is `IsGreedy I.g`. -/
+/-- Short v4.24 l. 336-337 (proof of Lemma 2.3, where `0 < g < x`): "This rule also shows that the colour $0$ is full in
+$\alpha$ and in $\beta$, that is, every vertex whose list contains $0$ is on $0$ or has an out-neighbour on $0$."
+Stated for every greedy colouring `c` (any sink colour `c0`); `α` is `IsGreedy I.x` and `β` is `IsGreedy I.g`. -/
 theorem lem_2_3_zero_full_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hg : 0 < I.g) (c0 : Fin 4)
     (c : W → Fin 4) (hc : I.IsGreedy c0 c) (v : W) (hv : (0 : Fin 4) ∈ I.L v) : c v = 0 ∨ ∃ u ∈ I.out v, c u = 0 := by
   have hvs : v ≠ I.sink := by

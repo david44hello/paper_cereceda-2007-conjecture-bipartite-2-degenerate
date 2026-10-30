@@ -1,11 +1,11 @@
 /-
-Cereceda/Defs/Bipartite.lean — the words of Section 3: patterns and kinds of vertices (fixed, leaver, joiner; v3.90
-l. 418-421), the colouring `μ` of Definition 3.7 (`IsGreedyMu`), and two kinds of vertices (low swappers, high movers) used by the
+Cereceda/Defs/Bipartite.lean — the words of Section 3: patterns and kinds of vertices (fixed, leaver, joiner; v4.24
+l. 443-446), the colouring `μ` of Definition 3.7 (`IsGreedyMu`), and two kinds of vertices (low swappers, high movers) used by the
 proofs in Bip/Basic.lean and Bip/SidesFacts.lean.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
-TRUST SURFACE: read against v3.90 Section 3 (l. 418-421 and 514-517). Low swappers and high movers are not
-definitions of v3.90: they are words of the Lean proofs only.
+TRUST SURFACE: read against v4.24 Section 3 (l. 443-446 and 530-533). Low swappers and high movers are not
+definitions of v4.24: they are words of the Lean proofs only.
 The pattern of `v` is `(α v, β v)`; all predicates take `α β` explicitly.
 -/
 import Cereceda.Defs.Instance
@@ -33,7 +33,7 @@ def IsLeaver (α β : W → Fin 4) (v : W) : Prop := α v = 0 ∧ β v ≠ 0
 /-- `v` is a joiner: its pattern is `(a, 0)` with `a ≠ 0`. -/
 def IsJoiner (α β : W → Fin 4) (v : W) : Prop := α v ≠ 0 ∧ β v = 0
 
-/-- Definition 3.7 (the colouring `μ`), v3.90 l. 514-517, as a predicate: `μ(s) = x` and, for `v ≠ s`, `μ(v)` is the least
+/-- The colouring `μ` of Definition 3.7 (v4.24 l. 530-533), as a predicate: `μ(s) = x` and, for `v ≠ s`, `μ(v)` is the least
 colour of `L(v)` that is at least `max(α(v), β(v))` and differs from `μ(u)` for every out-neighbour `u` of `v`. -/
 def IsGreedyMu (I : Instance W) (α β μ : W → Fin 4) : Prop :=
   μ I.sink = I.x ∧ ∀ v, v ≠ I.sink →

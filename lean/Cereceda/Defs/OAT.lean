@@ -1,6 +1,7 @@
 /-
-Cereceda/Defs/OAT.lean — the OAT graphs of Biedl, Lubiw and Merkel [BLM21] (short v3.90 l. 179-182): built from single
-vertices by disjoint unions, joins, adding a vertex u with N(u) ⊆ N(v), and attaching a clique to a vertex.
+Cereceda/Defs/OAT.lean — the OAT graphs of Biedl, Lubiw and Merkel [BLM21] (short v4.24 l. 229 and, in Remark 4.9,
+l. 800-802): built from single vertices by disjoint unions, joins, adding a vertex u with N(u) ⊆ N(v), and
+attaching a clique to a vertex.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.Classes
@@ -11,7 +12,7 @@ open SimpleGraph
 
 /-! ### The OAT operations -/
 
-/-- The join of `G` and `H`: their disjoint union plus every edge between them (v3.90 l. 181). -/
+/-- The join of `G` and `H`: their disjoint union plus every edge between them (v4.24 l. 800-801). -/
 def joinGraph {V W : Type} (G : SimpleGraph V) (H : SimpleGraph W) : SimpleGraph (V ⊕ W) where
   Adj
     | Sum.inl a, Sum.inl a' => G.Adj a a'
@@ -65,7 +66,7 @@ def attachClique {V : Type} (G : SimpleGraph V) (v : V) (k : ℕ) : SimpleGraph 
     · exact G.irrefl h
     · exact h rfl⟩
 
-/-- OAT graphs (v3.90 l. 180-182, after [BLM21, Def. 1]): built from single vertices by disjoint unions, joins, adding a
+/-- OAT graphs (v4.24 l. 800-802, after [BLM21, Def. 1]): built from single vertices by disjoint unions, joins, adding a
 vertex `u` with `N(u) ⊆ N(v)` for an existing vertex `v`, and attaching a clique to a vertex; closed under isomorphism. -/
 inductive IsOAT : {V : Type} → SimpleGraph V → Prop
   | single : IsOAT (⊥ : SimpleGraph Unit)

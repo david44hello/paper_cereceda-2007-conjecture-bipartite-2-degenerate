@@ -1,5 +1,5 @@
 /-
-Cereceda/LB/JDegrees.lean — J_ℓ: a_1 has degree at least 4, Grundy number at least 4, mad > 3 (short v3.90 l. 721-725).
+Cereceda/LB/JDegrees.lean — J_ℓ: a_1 has degree at least 4, Grundy number at least 4, mad > 3 (short v4.24 l. 766-770).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.LB.Facts
@@ -224,8 +224,8 @@ end JDegrees
 
 open JDegrees
 
-/-- Remark 4.8 (ii), v3.90 l. 721: "The vertex `a_1` is adjacent to `v_1`, `v_5`, `v_9` and `v_13`, so it has degree
-at least `4`." (`v_i` is `Sum.inl ⟨i - 1, _⟩`, `a_1` is `Sum.inr 1`; so the maximum degree is above `3`.) -/
+/-- Remark 4.8 (ii), v4.24 l. 766: "The vertex `a_1` has degree at least `4`, with neighbours `v_1`, `v_5`,
+`v_9` and `v_13`." (`v_i` is `Sum.inl ⟨i - 1, _⟩`, `a_1` is `Sum.inr 1`; so the maximum degree is above `3`.) -/
 theorem rem_4_8_ii_proved (n : ℕ) (hn : 15 ≤ n) :
     (Jgraph n).Adj (.inr 1) (.inl ⟨0, by omega⟩) ∧ (Jgraph n).Adj (.inr 1) (.inl ⟨4, by omega⟩) ∧
       (Jgraph n).Adj (.inr 1) (.inl ⟨8, by omega⟩) ∧ (Jgraph n).Adj (.inr 1) (.inl ⟨12, by omega⟩) ∧
@@ -251,9 +251,9 @@ theorem rem_4_8_ii_proved (n : ℕ) (hn : 15 ≤ n) :
     rwa [← SimpleGraph.card_neighborFinset_eq_degree]
   exact ⟨a0, a4, a8, a12, hdeg, lt_of_lt_of_le (by omega) (hdeg.trans ((Jgraph n).degree_le_maxDegree _))⟩
 
-/-- Remark 4.8 (iv), v3.90 l. 722-723: "A first-fit colouring in an order that begins with `v_1, v_4, v_5, v_10, v_7,
-v_8, v_9, a_1` gives these vertices the colours `1, 1, 2, 1, 1, 2, 3, 4`, so the Grundy number of `J_ℓ` is at least
-`4`." (Lean's colours start at `0`; the first conjunct shows that such an order exists.) -/
+/-- Remark 4.8 (iv), v4.24 l. 767-768: "Its Grundy number is at least `4`, since a first-fit colouring in an order that
+begins with `v_1, v_4, v_5, v_10, v_7, v_8, v_9, a_1` gives these vertices the colours `1, 1, 2, 1, 1, 2, 3, 4`."
+(Lean's colours start at `0`; the first conjunct shows that such an order exists.) -/
 theorem rem_4_8_iv_proved (n : ℕ) (hn : 15 ≤ n) :
     let L : List (Fin n ⊕ Fin 4) := [.inl ⟨0, by omega⟩, .inl ⟨3, by omega⟩, .inl ⟨4, by omega⟩, .inl ⟨9, by omega⟩,
       .inl ⟨6, by omega⟩, .inl ⟨7, by omega⟩, .inl ⟨8, by omega⟩, .inr 1]
@@ -292,7 +292,7 @@ theorem rem_4_8_iv_proved (n : ℕ) (hn : 15 ≤ n) :
       mem_image.mpr ⟨_, mem_univ _, c6⟩, mem_image.mpr ⟨_, mem_univ _, c7⟩]
   exact le_trans (card_le_card hsub) ((grundyNumber_spec_proved (Jgraph n)).2 ρ' c hc)
 
-/-- Remark 4.8 (v), v3.90 l. 724-725: "`J_ℓ` has `ℓ + 4` vertices and `2ℓ − 1` edges, so its maximum average degree is
+/-- Remark 4.8 (v), v4.24 l. 769-770: "As `J_ℓ` has `ℓ + 4` vertices and `2ℓ − 1` edges, its maximum average degree is
 at least `2(2ℓ − 1)/(ℓ + 4) > 3`." (Lean's `n` is the paper's `ℓ`.) -/
 theorem rem_4_8_v_proved (n : ℕ) (hn : 15 ≤ n) :
     Fintype.card (Fin n ⊕ Fin 4) = n + 4 ∧ (Jgraph n).edgeFinset.card = 2 * n - 1 ∧

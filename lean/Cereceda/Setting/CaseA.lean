@@ -5,7 +5,7 @@ Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 Facts used by the paper's route of Lemma 2.3 (Setting/CaseAPaper.lean, Setting/CaseAPaperCounts.lean), by
 Setting/Misc.lean and by Setting/CaseASteps.lean: the length of a list of moves as a sum of move counts; greedy
 colourings are proper, a vertex other than the sink is never on `3`, Claims 1 and 2 of the paper's proof
-(v3.90 l. 313-315, 321-322); `α v = 0 ↔ β v = 0` (the set `U` of the paper, v3.90 l. 308-310; `K` here).
+(v4.24 l. 339-341, 347-348); `α v = 0 ↔ β v = 0` (the set `U` of the paper, v4.24 l. 334-336; `K` here).
 -/
 import Cereceda.Defs.Basic
 import Cereceda.Defs.Instance
@@ -98,7 +98,7 @@ theorem L_all_of_two (v : W) (h2 : 2 ≤ (I.out v).card) (z : Fin 4) : z ∈ I.L
   rw [hL]
   exact mem_univ z
 
-/-- (Claim 1, v3.90 l. 313-315) A vertex not on `0` with an out-neighbour `p` not on `0`: all its other out-neighbours are on `0`. -/
+/-- (Claim 1, v4.24 l. 339-341) A vertex not on `0` with an out-neighbour `p` not on `0`: all its other out-neighbours are on `0`. -/
 theorem parent_others_zero (hc : I.IsGreedy c0 c) {v p : W} (hv : v ≠ I.sink) (hcv : c v ≠ 0)
     (hp : p ∈ I.out v) (hcp : c p ≠ 0) : ∀ u ∈ I.out v, u ≠ p → c u = 0 := by
   intro u hu hup
@@ -110,7 +110,7 @@ theorem parent_others_zero (hc : I.IsGreedy c0 c) {v p : W} (hv : v ≠ I.sink) 
   have := I.out_card v
   omega
 
-/-- (Claim 2, v3.90 l. 321-322) A vertex not on `0` with an out-neighbour not on `0` has the colours `1, 2, 3` in its list. -/
+/-- (Claim 2, v4.24 l. 347-348) A vertex not on `0` with an out-neighbour not on `0` has the colours `1, 2, 3` in its list. -/
 theorem parent_lists (hc : I.IsGreedy c0 c) {v p : W} (hv : v ≠ I.sink) (hcv : c v ≠ 0)
     (hp : p ∈ I.out v) (hcp : c p ≠ 0) : ∀ z, z ≠ 0 → z ∈ I.L v := by
   intro z hz

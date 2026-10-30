@@ -1,7 +1,7 @@
 /-
-Cereceda/Intro/Classes.lean — fans (short v3.90 l. 105-106: `2`-degenerate but not bipartite; `intro_fans_proved`), the
+Cereceda/Intro/Classes.lean — fans (short v4.24 l. 105: `2`-degenerate but not bipartite; `intro_fans_proved`), the
 chordless 6-cycle and `K_{2,m}` facts used by Intro/UnionNoClass.lean, and
-`intro_no_class_contains_all_proved`, an earlier proof route of Section 1 (not in v3.90).
+`intro_no_class_contains_all_proved`, an earlier proof route of Section 1 (not in v4.24).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 Routes. C_6: Mathlib's 6-cycle `cycleGraph.cycle 3` is a cycle of length 6 whose edges are all the edges of C_6, so

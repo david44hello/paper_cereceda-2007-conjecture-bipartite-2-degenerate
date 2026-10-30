@@ -2,8 +2,8 @@
 Cereceda/Defs/Instance.lean — instances (paper Definition 2.2), greedy colourings, classes, cone instances.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
-TRUST SURFACE: read against paper Definition 2.2 (v3.90 l. 251-267) and the proof of Lemma 2.5 (v3.90 l. 358-388,
-with the cone instances at l. 269-272).
+TRUST SURFACE: read against paper Definition 2.2 (v4.24 l. 266-282) and the proof of Lemma 2.5 (v4.24 l. 390-417,
+with the cone instances at l. 284-288).
 -/
 import Cereceda.Defs.Basic
 
@@ -49,7 +49,7 @@ def Skeleton.IsRoot (S : Skeleton W) (v : W) : Prop :=
 def Skeleton.NoRoots (S : Skeleton W) : Prop :=
   ∀ v, ¬ S.IsRoot v
 
-/-- Single-sink (paper Def 2.2, v3.90 l. 256): the sink is the only vertex without out-neighbours (the sink has none,
+/-- Single-sink (paper Def 2.2, v4.24 l. 270): the sink is the only vertex without out-neighbours (the sink has none,
 field `sink_out`). The same as `NoRoots`: `def_2_2_singleSink_iff` in Statements.lean. -/
 def Skeleton.IsSingleSink (S : Skeleton W) : Prop :=
   ∀ v, S.out v = ∅ → v = S.sink
@@ -67,7 +67,7 @@ def Instance.IsGreedy (I : Instance W) (c0 : Fin 4) (c : W → Fin 4) : Prop :=
 def Instance.IsSeq (I : Instance W) (c : W → Fin 4) (ms : List (W × Fin 4)) (c' : W → Fin 4) : Prop :=
   Cereceda.IsSeq I.graph I.L c ms c'
 
-/-- The forest `F` of the proof of Lemma 2.3 (v3.90 l. 310-319) for a colouring `c`, as a graph on all of
+/-- The forest `F` of the proof of Lemma 2.3 (v4.24 l. 336-345) for a colouring `c`, as a graph on all of
 `W`: the edges of the instance graph whose two ends are not on `0`. The tree `T` of that proof is the set of vertices
 reachable from the sink in this graph. -/
 def Instance.fGraph (I : Instance W) (c : W → Fin 4) : SimpleGraph W where
@@ -75,7 +75,7 @@ def Instance.fGraph (I : Instance W) (c : W → Fin 4) : SimpleGraph W where
   symm := ⟨fun _ _ ⟨h, hu, hv⟩ => ⟨h.symm, hv, hu⟩⟩
   loopless := ⟨fun _ ⟨h, _, _⟩ => I.graph.irrefl h⟩
 
-/-- A class of instances "closed under changing the lists" (paper Lemma 2.5, v3.90 l. 351-352): membership depends
+/-- A class of instances "closed under changing the lists" (paper Lemma 2.5, v4.24 l. 383-384): membership depends
 only on the skeleton (vertices, instance order, out-neighbours), not on the lists or the colours: a predicate on
 skeletons. -/
 abbrev InstanceClass : Type 1 :=
@@ -102,10 +102,10 @@ theorem le_of_mem_cone {G : SimpleGraph V} {n : ℕ} {ρ : V ≃ Fin n} {w u : V
   simp only [cone, mem_filter, mem_univ, true_and] at hu
   exact hu.1
 
-/-- The skeleton of the instance on the cone `C_t` with sink `v_t = w` (used in the proof of Lemma 2.5), short v3.90
-l. 269-271: "the instance on `C_t` has the vertices of `C_t` in decreasing order of index (the reverse of the
-degeneracy ordering) as its instance order, so its sink is `v_t`; the out-neighbours of a vertex `v ∈ C_t` in the
-instance are the vertices of `N⁺_G(v) ∩ C_t`". In Lean: `rank u = ρ w - ρ u` (decreasing index, `v_t` first), and
+/-- The skeleton of the instance on the cone `C_t` with sink `v_t = w` (used in the proof of Lemma 2.5), short v4.24
+l. 284-286: "the instance on `C_t` has the vertices of `C_t` in decreasing order of index as its instance order
+and `v_t` as its sink. The out-neighbours of a vertex `v ∈ C_t` in the instance are the vertices of
+`N⁺_G(v) ∩ C_t`". In Lean: `rank u = ρ w - ρ u` (decreasing index, `v_t` first), and
 `out u` is the set of the vertices `v` of `C_t` with `G.Adj u v` and `ρ u < ρ v` (the later neighbours of `u`, i.e.
 `N⁺_G(u)`, that lie in `C_t`). Only the data fields (`sink`, `rank`, `out`) are trust surface; the other fields are
 proofs. -/

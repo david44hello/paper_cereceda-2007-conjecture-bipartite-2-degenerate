@@ -1,5 +1,5 @@
 /-
-Cereceda/Setting/SweepSteps.lean — abstract (short v3.90 l. 43-46): n stages, every vertex at most twice per stage.
+Cereceda/Setting/SweepSteps.lean — abstract (short v4.24 l. 43-46): n stages, every vertex at most twice per stage.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 Route: the sweep of Lemma 2.5 (Setting/Sweep.lean), keeping each step's moves as one block. A block is empty when the

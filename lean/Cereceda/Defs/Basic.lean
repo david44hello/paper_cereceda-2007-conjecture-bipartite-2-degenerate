@@ -1,7 +1,7 @@
 /-
 Cereceda/Defs/Basic.lean — graph-level definitions for the paper
-"The Cereceda (2007) conjecture holds for bipartite 2-degenerate graphs" (Dave Goel), short version v3.90
-(short_v3.90.tex; statement numbers and line numbers as in v3.90).
+"The Cereceda (2007) conjecture holds for bipartite 2-degenerate graphs" (Dave Goel), short version v4.24
+(short_v4.24.tex; statement numbers and line numbers as in v4.24).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 TRUST SURFACE: every definition here is read by the reviewers against the paper.
@@ -24,7 +24,7 @@ def recolGraph (G : SimpleGraph V) (k : ℕ) : SimpleGraph (G.Coloring (Fin k)) 
   symm := ⟨fun _ _ ⟨v, hv, hw⟩ => ⟨v, hv.symm, fun w hwv => (hw w hwv).symm⟩⟩
   loopless := ⟨fun _ ⟨_, hv, _⟩ => hv rfl⟩
 
-/-- `G` is `d`-degenerate (paper, v3.90 l. 38-39: "each of its non-empty subgraphs has a vertex of degree at most `d`"),
+/-- `G` is `d`-degenerate (paper, v4.24 l. 38-39: "each of its non-empty subgraphs has a vertex of degree at most `d`"),
 stated for the
 induced subgraph on every nonempty vertex set `s`: some `v ∈ s` has at most `d` neighbours in `s`.
 (`Statements.degenerate_iff_subgraph` proves that this equals the form for every non-empty subgraph.) -/
@@ -45,7 +45,7 @@ def Arc (G : SimpleGraph V) {n : ℕ} (ρ : V ≃ Fin n) (u v : V) : Prop :=
   G.Adj u v ∧ ρ u < ρ v
 
 open Classical in
-/-- Definition 2.1 (cones). For `w = v_t`, the cone `C_t` is the set of vertices `v_j`, `j ≤ t`, from which `v_t`
+/-- Definition 2.1. For `w = v_t`, the cone `C_t` is the set of vertices `v_j`, `j ≤ t`, from which `v_t`
 can be reached along arcs inside `{v_1, …, v_t}`. -/
 noncomputable def cone (G : SimpleGraph V) {n : ℕ} (ρ : V ≃ Fin n) (w : V) : Finset V :=
   univ.filter (fun u => ρ u ≤ ρ w ∧
@@ -61,7 +61,7 @@ variable {W : Type} [Fintype W] [DecidableEq W]
 def IsProperFn {α : Type} (H : SimpleGraph W) (c : W → α) : Prop :=
   ∀ u v, H.Adj u v → c u ≠ c v
 
-/-- A move `m = (v, y)` from the colouring `c` (paper Def 2.2, v3.90 l. 265: "a move gives one vertex another colour of its
+/-- A move `m = (v, y)` from the colouring `c` (paper Def 2.2, v4.24 l. 280: "a move gives one vertex another colour of its
 list, one that none of its neighbours has"): the colour really changes, the new colour `y` is allowed at `v`
 (`A v` is the list of `v`), and no neighbour of `v` in `H` has the colour `y` at that time. -/
 def LegalMove (H : SimpleGraph W) (A : W → Finset (Fin 4)) (c : W → Fin 4) (m : W × Fin 4) : Prop :=

@@ -1,7 +1,7 @@
 /-
-Cereceda/Bip/Triangle.lean — proofs of the rows of Remark 3.9 (short v3.90 l. 550-563), the sentence after Table 2
-(l. 487-489), open problems 1-2 (5-cycle, l. 751; 6-cycles and girth, l. 755-759) and Propositions 4.1 / 4.6 in the
-vertex count (l. 581, 588, 673, 683) (`*_proved`; the vertex forms take the finiteness of
+Cereceda/Bip/Triangle.lean — proofs of the rows of Remark 3.9 (short v4.24 l. 567-579), a consequence of Lemma 3.5 on
+joiners, leavers and fixed vertices by side (short v4.24 l. 484-493), open problems 1-2 (short v4.24: 5-cycle, l. 827; 6-cycles and girth, l. 831-835) and
+Propositions 4.1 / 4.6 in the vertex count (l. 626, 634, 718, 731) (`*_proved`; the vertex forms take the finiteness of
 the diameter, which Statements supplies from Theorem 1.2, as `prop_4_1_proved` does).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
@@ -62,7 +62,7 @@ theorem notBipartite : ¬ tri.graph.IsBipartite := by
     fin_cases a <;> fin_cases b <;> fin_cases c <;> simp_all
   exact key _ _ _ e12 e23 e13
 
-/-- The paper's argument (v3.90 l. 554-556): a colouring with `μ ≥ α`, `μ ≥ β`, `μ(s) = x` and `μ(u₁) ≠ μ(s)` has
+/-- The paper's argument (v4.24 l. 572-574): a colouring with `μ ≥ α`, `μ ≥ β`, `μ(s) = x` and `μ(u₁) ≠ μ(s)` has
 `μ(u₁) ≥ 1`, `μ(u₁) ≠ 1` and `μ(u₂), μ(u₃) ≥ 2`, so it uses only `2` and `3` on the triangle. -/
 theorem mu_forced (μ : Fin 4 → Fin 4) (ha : ∀ v, alphaT v ≤ μ v) (hb : ∀ v, betaT v ≤ μ v)
     (hs : μ tri.sink = tri.x) (hne : μ 1 ≠ μ tri.sink) :
@@ -79,7 +79,7 @@ theorem mu_forced (μ : Fin 4 → Fin 4) (ha : ∀ v, alphaT v ≤ μ v) (hb : �
     decide
   exact key (μ 0) (μ 1) (μ 2) (μ 3) hs' hne' b1 b2 a3
 
-/-- No colouring as in Lemma 3.4 (v3.90 l. 554-556): it would colour the triangle with the two colours `2` and `3`. -/
+/-- No colouring as in Lemma 3.4 (v4.24 l. 572-574): it would colour the triangle with the two colours `2` and `3`. -/
 theorem no_mu : ¬ ∃ μ : Fin 4 → Fin 4, IsProperFn tri.graph μ ∧ (∀ v, μ v ∈ tri.L v) ∧ (∀ v, alphaT v ≤ μ v) ∧
     (∀ v, betaT v ≤ μ v) ∧ μ tri.sink = tri.x := by
   rintro ⟨μ, hp, -, hα, hβ, hs⟩
@@ -129,26 +129,6 @@ theorem rem_3_9_proved :
     decide
   · unfold IsFixed
     decide
-
-theorem sec3_table_fixed_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hnr : I.NoRoots)
-    (hg0 : I.g = 0) (side : W → Fin 2) (hside : IsProperFn I.graph side) (α β : W → Fin 4)
-    (hα : I.IsGreedy I.x α) (hβ : I.IsGreedy I.g β) (v : W) :
-    (v ≠ I.sink → IsJoiner α β v → side v = side I.sink) ∧ (IsLeaver α β v → side v ≠ side I.sink) ∧
-    (v ≠ I.sink → side v = side I.sink → (α v = 0 ∨ β v = 1) → IsFixed α β v) ∧
-    (side v ≠ side I.sink → (α v = 1 ∨ β v = 0) → IsFixed α β v) := by
-  obtain ⟨h0, h1⟩ := lem_3_5_proved I hnr hg0 side hside α β hα hβ v
-  obtain ⟨hj, hl, -⟩ := lem_3_5_equiv_proved I hnr hg0 side hside α β hα hβ
-  refine ⟨fun _ h => hj v h, hl v, fun hv hs h => ?_, fun hs h => ?_⟩
-  · have hp := h0 hv hs
-    simp only [Finset.mem_insert, Finset.mem_singleton, Prod.mk.injEq] at hp
-    unfold IsFixed
-    rcases hp with ⟨ha, hb⟩ | ⟨ha, hb⟩ | ⟨ha, hb⟩ | ⟨ha, hb⟩ | ⟨ha, hb⟩ | ⟨ha, hb⟩ <;>
-      rcases h with h | h <;> simp_all
-  · have hp := h1 hs
-    simp only [Finset.mem_insert, Finset.mem_singleton, Prod.mk.injEq] at hp
-    unfold IsFixed
-    rcases hp with ⟨ha, hb⟩ | ⟨ha, hb⟩ | ⟨ha, hb⟩ | ⟨ha, hb⟩ | ⟨ha, hb⟩ | ⟨ha, hb⟩ <;>
-      rcases h with h | h <;> simp_all
 
 theorem open_1_five_cycle_proved :
     ex8.graph.Adj 0 1 ∧ ex8.graph.Adj 1 3 ∧ ex8.graph.Adj 3 4 ∧ ex8.graph.Adj 4 2 ∧ ex8.graph.Adj 2 0 ∧

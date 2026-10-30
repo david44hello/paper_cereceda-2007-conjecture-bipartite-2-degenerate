@@ -1,5 +1,5 @@
 /-
-Cereceda/Setting/DegeneracyForm.lean — degeneracy facts and the two equivalent forms of Conjecture 1.1 (short v3.90 l. 64-78).
+Cereceda/Setting/DegeneracyForm.lean — degeneracy facts and the two equivalent forms of Conjecture 1.1 (short v4.24 l. 64-78).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.Basic
@@ -114,7 +114,7 @@ theorem card_le_mul_sq (n C : ℕ) (hC : 1 ≤ C) : n ≤ C * n ^ 2 := by
 end DegeneracyForm
 
 /-- `G` is `n`-degenerate, `n` its number of vertices: in any nonempty vertex set every vertex has fewer than `n`
-neighbours. This makes the set in the definition of the degeneracy (v3.90 l. 64-65, "The degeneracy of a graph is
+neighbours. This makes the set in the definition of the degeneracy (v4.24 l. 64-65, "The degeneracy of a graph is
 the least `d` for which it is `d`-degenerate") nonempty, so the least `d` exists. -/
 theorem isDegenerate_card {V : Type} [Fintype V] (G : SimpleGraph V) [DecidableRel G.Adj] :
     IsDegenerate G (Fintype.card V) := by
@@ -122,7 +122,7 @@ theorem isDegenerate_card {V : Type} [Fintype V] (G : SimpleGraph V) [DecidableR
   obtain ⟨v, hv⟩ := hs
   exact ⟨v, hv, (card_filter_le _ _).trans (card_le_univ s)⟩
 
-/-- A `d`-degenerate graph is `d'`-degenerate for every `d' ≥ d` (used with v3.90 l. 64-65: "The degeneracy of a
+/-- A `d`-degenerate graph is `d'`-degenerate for every `d' ≥ d` (used with v4.24 l. 64-65: "The degeneracy of a
 graph is the least `d` for which it is `d`-degenerate"). -/
 theorem isDegenerate_mono {V : Type} [Fintype V] (G : SimpleGraph V) [DecidableRel G.Adj] {d d' : ℕ}
     (h : IsDegenerate G d) (hle : d ≤ d') : IsDegenerate G d' := by
@@ -130,13 +130,13 @@ theorem isDegenerate_mono {V : Type} [Fintype V] (G : SimpleGraph V) [DecidableR
   obtain ⟨v, hv, hcard⟩ := h s hs
   exact ⟨v, hv, hcard.trans hle⟩
 
-/-- v3.90 l. 64-65: "The degeneracy of a graph is the least `d` for which it is `d`-degenerate" — the graph is
+/-- v4.24 l. 64-65: "The degeneracy of a graph is the least `d` for which it is `d`-degenerate" — the graph is
 `d`-degenerate for `d` = its degeneracy (the least such `d` exists). -/
 theorem isDegenerate_degeneracy {V : Type} [Fintype V] (G : SimpleGraph V) [DecidableRel G.Adj] :
     IsDegenerate G (degeneracy G) :=
   Nat.sInf_mem (s := {d | IsDegenerate G d}) ⟨Fintype.card V, isDegenerate_card G⟩
 
-/-- v3.90 l. 64-65: "The degeneracy of a graph is the least `d` for which it is `d`-degenerate" — it is at most every
+/-- v4.24 l. 64-65: "The degeneracy of a graph is the least `d` for which it is `d`-degenerate" — it is at most every
 `d` for which the graph is `d`-degenerate (the upper half of l. 77, "a `d`-degenerate graph with an edge has degeneracy
 between `1` and `d`"). -/
 theorem degeneracy_le {V : Type} [Fintype V] (G : SimpleGraph V) [DecidableRel G.Adj] {d : ℕ} (h : IsDegenerate G d) :
@@ -144,7 +144,7 @@ theorem degeneracy_le {V : Type} [Fintype V] (G : SimpleGraph V) [DecidableRel G
   Nat.sInf_le h
 
 /-- A graph of degeneracy `0` has no edges (so a graph with an edge has degeneracy at least `1`: the lower half of
-v3.90 l. 77, "a `d`-degenerate graph with an edge has degeneracy between `1` and `d`"). Proof: the set `{u, v}` has a
+v4.24 l. 77, "a `d`-degenerate graph with an edge has degeneracy between `1` and `d`"). Proof: the set `{u, v}` has a
 vertex with no neighbour in it. -/
 theorem not_adj_of_degeneracy_eq_zero {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]
     (h : degeneracy G = 0) (u v : V) : ¬ G.Adj u v := by
@@ -162,8 +162,8 @@ theorem not_adj_of_degeneracy_eq_zero {V : Type} [Fintype V] [DecidableEq V] (G 
     exact notMem_empty u hmem
 
 /-- For a graph without edges, `diam R_k(G) ≤ n` (every function is a proper colouring; change the differing
-vertices one at a time). This is the case of degeneracy `0`, which the paper leaves out ("For graphs with at least one
-edge, the two forms are equivalent", v3.90 l. 76-77) and which the Lean-only all-graphs equivalence `conj_forms_equiv`
+vertices one at a time). This is the case of degeneracy `0`, which the paper leaves out ("The two forms are equivalent for
+graphs with at least one edge", v4.24 l. 76) and which the Lean-only all-graphs equivalence `conj_forms_equiv`
 needs. Proved directly, no cited result. -/
 theorem ediam_le_card_of_edgeless {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) (k : ℕ)
     (h : ∀ u v, ¬ G.Adj u v) : (recolGraph G k).ediam ≤ (Fintype.card V : ℕ∞) := by
@@ -171,7 +171,7 @@ theorem ediam_le_card_of_edgeless {V : Type} [Fintype V] [DecidableEq V] (G : Si
   refine (DegeneracyForm.edist_le_card_diff G h _ c c' rfl).trans ?_
   exact_mod_cast card_le_univ _
 
-/-- Beyond the paper's sentence (v3.90 l. 76-78 claims the equivalence for graphs with at least one edge:
+/-- Beyond the paper's sentence (v4.24 l. 76-78 claims the equivalence for graphs with at least one edge:
 `conj_forms_equiv_edge`): the two forms are equivalent for all graphs. The left side is Conjecture 1.1 as stated
 (l. 72-75, the body of `CerecedaConjecture`), the right side is Cereceda's form with `degeneracy G = d`.
 Left to right: degeneracy `d` gives `d`-degenerate. Right to left: a `d`-degenerate `G` has degeneracy `d' ≤ d`; for
@@ -202,7 +202,7 @@ theorem conj_forms_equiv :
         single_le_sum (fun _ _ => Nat.zero_le _) (mem_range.mpr (by omega))
       exact_mod_cast Nat.mul_le_mul_right _ (by omega)
 
-/-- v3.90 l. 77: "a `d`-degenerate graph with an edge has degeneracy between `1` and `d`" (degeneracy `0` means no
+/-- v4.24 l. 77: "a `d`-degenerate graph with an edge has degeneracy between `1` and `d`" (degeneracy `0` means no
 edges). -/
 theorem degeneracy_between {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj] {d : ℕ}
     (he : ∃ u v, G.Adj u v) (h : IsDegenerate G d) : 1 ≤ degeneracy G ∧ degeneracy G ≤ d := by
@@ -212,9 +212,9 @@ theorem degeneracy_between {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGra
     exact absurd huv (not_adj_of_degeneracy_eq_zero G h0 u v)
   · exact h0
 
-/-- v3.90 l. 76-78: "Cereceda states it with `d` equal to the degeneracy of `G`. For graphs with at least one edge, the
-two forms are equivalent: a `d`-degenerate graph with an edge has degeneracy between `1` and `d`, so `C` can be taken as
-the largest of the constants that Cereceda's form gives for these degeneracies and the same `k`." Both forms restricted
+/-- v4.24 l. 76-78: "Cereceda states it with `d` equal to the degeneracy of `G`. The two forms are equivalent for graphs
+with at least one edge, since a `d`-degenerate graph with an edge has degeneracy between `1` and `d`, and we can take for
+`C` the largest of the constants that Cereceda's form gives for these degeneracies and the same `k`." Both forms restricted
 to graphs with at least one edge. Left to right: degeneracy `d` gives `d`-degenerate. Right to left, as the paper: `degeneracy_between`, and `C` = the largest of
 the constants for `(d', k)`, `1 ≤ d' ≤ d` (each exists as `k ≥ d + 2 ≥ d' + 2`). -/
 theorem conj_forms_equiv_edge :

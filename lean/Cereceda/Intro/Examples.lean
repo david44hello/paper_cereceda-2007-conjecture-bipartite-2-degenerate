@@ -1,8 +1,8 @@
 /-
-Cereceda/Intro/Examples.lean — `K_{d+1}` (short v3.90 l. 67-68: `R_{d+1}(K_{d+1})` is disconnected;
+Cereceda/Intro/Examples.lean — `K_{d+1}` (short v4.24 l. 67-68: `R_{d+1}(K_{d+1})` is disconnected;
 `intro_complete_disconnected_proved`), `K_{2,m}` (degeneracy, edge count), trees (`tree_isDegenerate`), and two
 results of an earlier proof route
-of Section 1 (not in v3.90): `K_{2,m}` has average degree above `4 − ε` (`intro_K2m_proved`), and trees, even
+of Section 1 (not in v4.24): `K_{2,m}` has average degree above `4 − ε` (`intro_K2m_proved`), and trees, even
 cycles and grids are bipartite and `2`-degenerate (`intro_class_examples_proved`).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/

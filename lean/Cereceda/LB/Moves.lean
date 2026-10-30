@@ -80,7 +80,7 @@ namespace Cereceda
 open Finset MovesAux
 
 set_option linter.unusedVariables false in
-/-- **Lemma 4.2 (lem:h1)** (v3.90 l. 598-600), for every path-with-apices graph: a move of a path vertex between two
+/-- **Lemma 4.2 (lem:h1)** (v4.24 l. 644-647), for every path-with-apices graph: a move of a path vertex between two
 plain colourings changes one value of a height function by exactly `2` and keeps the others.
 (`hpc'` is part of the statement, as in the paper; the proof does not need it.) -/
 theorem lem_4_2_proved (n k : ℕ) (f : Fin n → Fin k) (c c' : Fin n ⊕ Fin k → Fin 4)
@@ -128,7 +128,7 @@ theorem lem_4_2_proved (n k : ℕ) (f : Fin n → Fin k) (c c' : Fin n ⊕ Fin k
     rw [hupd]
     exact isPathHeight_of c' h' hs'
 
-/-- **Lemma 4.3 (lem:flat)** (v3.90 l. 610-611): if a plain colouring of `H_n` allows a move of `a` or of `b`, then
+/-- **Lemma 4.3 (lem:flat)** (v4.24 l. 657-658): if a plain colouring of `H_n` allows a move of `a` or of `b`, then
 `|W| ≤ 4`. (For `a` the proof gives `3`.) -/
 theorem lem_4_3_proved (n : ℕ) (c : Fin n ⊕ Fin 2 → Fin 4) (hc : IsProperFn (Hgraph n) c) (hp : IsPlain c)
     (hmove : ∃ j y, LegalMove (Hgraph n) (fun _ => univ) c (.inr j, y)) (h : ℕ → ℤ)
@@ -150,7 +150,7 @@ theorem lem_4_3_proved (n : ℕ) (c : Fin n ⊕ Fin 2 → Fin 4) (hc : IsProperF
     linarith
   · exact PathAux.flat_odd hs _ (fun i hi hpar => hcls i hi (by omega))
 
-/-- **Lemma 4.7 (lem:flat4)** (v3.90 l. 689-690): if a plain colouring of `J_n` allows a move of some `a_j`, then
+/-- **Lemma 4.7 (lem:flat4)** (v4.24 l. 737-738): if a plain colouring of `J_n` allows a move of some `a_j`, then
 `|W| ≤ 3(n-1)/4 + 7`. -/
 theorem lem_4_7_proved (n : ℕ) (c : Fin n ⊕ Fin 4 → Fin 4) (hc : IsProperFn (Jgraph n) c) (hp : IsPlain c)
     (hmove : ∃ j y, LegalMove (Jgraph n) (fun _ => univ) c (.inr j, y)) (h : ℕ → ℤ)

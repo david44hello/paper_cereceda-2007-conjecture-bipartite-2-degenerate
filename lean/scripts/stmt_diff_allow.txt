@@ -1,5 +1,6 @@
 # stmt_diff_allow.txt — claims whose X_proved has a DIFFERENT type ON PURPOSE (read by scripts/stmt_diff.py).
 # Format: <full claim name> <reason>. Only the project lead adds entries; every entry needs a reason.
+# version 0.71 - 20261030_1217 — paper v4.24: + sec4_J_from_H (Fin literals with `by omega` / `Nat.mod_lt` bounds).
 # version 0.61 - 20261028_2313 — paper v3.90: + sec4_Hgraph_four_cycle, sec4_Jgraph_six_cycle (Fin literals with `by omega` bounds).
 # version 0.51 - 20261028_1919 — paper v3.80: + rem_4_8_ii, rem_4_8_iv (Fin literals with `by omega` bounds).
 # version 0.41 - 20261028_1527 — paper v3.10: entries of deleted rows (rem_4_5, intro_K2m, intro_G0) and of the old prop_1_3 removed.
@@ -14,3 +15,4 @@ Cereceda.rem_4_8_ii definitionally equal: only the `by omega` bound proofs of th
 Cereceda.rem_4_8_iv definitionally equal: only the `by omega` bound proofs of the Fin literals ⟨i, _⟩ in the list L differ (proof irrelevance) (20261028_1919)
 Cereceda.sec4_Hgraph_four_cycle definitionally equal: same statement text; only the `by omega` bound proofs of the Fin literals ⟨i, _⟩ in the support list differ (proof irrelevance) (20261028_2313)
 Cereceda.sec4_Jgraph_six_cycle definitionally equal: same statement text; only the `by omega` bound proofs of the Fin literals ⟨i, _⟩ in the support list differ (proof irrelevance) (20261028_2313)
+Cereceda.sec4_J_from_H definitionally equal: same statement text; only the bound proofs inside the Fin literals (`⟨i, by omega⟩`, `Nat.mod_lt _ (by norm_num)`) differ (proof irrelevance) (20261030_1217)

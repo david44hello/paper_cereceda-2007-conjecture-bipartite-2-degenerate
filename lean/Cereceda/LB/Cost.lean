@@ -1,16 +1,16 @@
 /-
 Cereceda/LB/Cost.lean — Lemma 4.4 (lem:cost) of the paper "The Cereceda (2007) conjecture holds for bipartite
-2-degenerate graphs", short v3.90 l. 630-642 (statement l. 630-633, proof l. 635-642).
+2-degenerate graphs", short v4.24 l. 676-688 (statement l. 676-679, proof l. 681-688).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
-Paper, verbatim (v3.90 l. 630-633; Lean's `g` is the paper's `h'`, Lean's `n` is the paper's `\ell`):
+Paper, verbatim (v4.24 l. 676-679; Lean's `g` is the paper's `h'`, Lean's `n` is the paper's `\ell`):
   Let $h, h' \colon \{1,\dots,\ell\} \to \mathbb{Z}$ be functions whose steps $h(i+1) - h(i)$ and $h'(i+1) - h'(i)$ are
   all $\pm 1$, every step of $h$ being $+1$. Let a real number $q \ge 0$ satisfy $h'(\ell) - h'(1) \le (\ell-1) - q$
   and $q/4 + 1 \le \ell/2$. Then $\sum_i |h'(i) - h(i)| \ge q^2/8$. The same holds with all signs reversed (all steps
   of $h$ equal to $-1$ and $h'(\ell) - h'(1) \ge -(\ell-1) + q$).
 
 Encoding: 0-based, position i (0 ≤ i < n) is the paper's index i+1; the step at i is the value at i+1 minus
-the value at i, for i + 1 < n. `q` is real (the paper uses q = (ℓ-29)/4 in Proposition 4.6, v3.90 l. 706).
+the value at i, for i + 1 < n. `q` is real (the paper uses q = (ℓ-29)/4 in Proposition 4.6, v4.24 l. 754).
 Proof = the paper's: f = g - h falls by at most 2 per step and by at least q in total; the pairs {k, n-1-k}, k ≤ m with
 m = ⌊q/4⌋, are disjoint and carry |f| ≥ q - 4k each; ∑_{k ≤ m} (q - 4k) = (m+1)(q - 2m) ≥ q²/8.
 -/
@@ -130,7 +130,7 @@ namespace Cereceda
 
 open Finset
 
-/-- **Lemma 4.4 (lem:cost)**, first part (v3.90 l. 630-632), 0-based. -/
+/-- **Lemma 4.4 (lem:cost)**, first part (v4.24 l. 676-678), 0-based. -/
 theorem cost_proved (n : ℕ) (h g : ℕ → ℤ) (q : ℝ)
     (hh : ∀ i, i + 1 < n → h (i + 1) - h i = 1)
     (hg : ∀ i, i + 1 < n → g (i + 1) - g i = 1 ∨ g (i + 1) - g i = -1)
@@ -155,7 +155,7 @@ theorem cost_proved (n : ℕ) (h g : ℕ → ℤ) (q : ℝ)
     linarith
   exact CostAux.cost_of_fall (f := fun i => g i - h i) hf hq hfall hqn
 
-/-- **Lemma 4.4 (lem:cost)**, mirror form (v3.90 l. 632-633: "The same holds with all signs reversed"), 0-based. -/
+/-- **Lemma 4.4 (lem:cost)**, mirror form (v4.24 l. 678-679: "The same holds with all signs reversed"), 0-based. -/
 theorem cost_mirror_proved (n : ℕ) (h g : ℕ → ℤ) (q : ℝ)
     (hh : ∀ i, i + 1 < n → h (i + 1) - h i = -1)
     (hg : ∀ i, i + 1 < n → g (i + 1) - g i = 1 ∨ g (i + 1) - g i = -1)

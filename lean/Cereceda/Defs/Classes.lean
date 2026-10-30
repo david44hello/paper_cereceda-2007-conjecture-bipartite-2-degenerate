@@ -1,6 +1,6 @@
 /-
-Cereceda/Defs/Classes.lean — two graph classes of Section 1 (short v3.90): semi-false graphs (`IsSemiFalse`, l. 158-162;
-they lie in class (iii)) and distance-hereditary graphs (`IsDistanceHereditary`, l. 174-176).
+Cereceda/Defs/Classes.lean — two graph classes of the paper (short v4.24): semi-false graphs (`IsSemiFalse`, Remark 4.9,
+l. 791-795; they lie in class (iii)) and distance-hereditary graphs (`IsDistanceHereditary`, Section 1, l. 227-229).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.Intro
@@ -11,7 +11,7 @@ section SemiFalse
 
 variable {V : Type} [Fintype V]
 
-/-- A *semi-false* graph (v3.90 l. 158-160): it "can be built from isolated vertices by repeatedly adding a vertex
+/-- A *semi-false* graph (v4.24 Remark 4.9, l. 792-793): it "can be built from isolated vertices by repeatedly adding a vertex
 adjacent to exactly one existing vertex, or a vertex `u` with `N(u) ⊆ N(v)` for an existing vertex `v`". A construction is the order `ρ` in which
 the vertices are added (the starting isolated vertices first). When `u` is added, its neighbours are its neighbours `w`
 with `ρ w < ρ u`, and an earlier vertex `v` then has as neighbours its neighbours added before `u`. So for each `u`:
@@ -29,7 +29,7 @@ section DistanceHereditary
 
 variable {V : Type}
 
-/-- A graph is *distance-hereditary* (v3.90 l. 175-176: "a graph in which any two vertices of a connected induced
+/-- A graph is *distance-hereditary* (v4.24 l. 228-229: "a graph in which any two vertices of a connected induced
 subgraph are at the same distance in the subgraph as in the whole graph"): every connected induced subgraph
 is isometric. (Howorka, Quart. J. Math. Oxford 28 (1977) 417-420; the class of [BB18, Thm. 4].) -/
 def IsDistanceHereditary (G : SimpleGraph V) : Prop :=

@@ -47,7 +47,7 @@ namespace Cereceda
 
 open Finset Sec4Aux
 
-/-- Section 4, short v3.90 l. 580-583: `H_n` (card, sides, straight-line drawing, order). -/
+/-- Section 4, short v4.24 l. 625-628: `H_n` (card, sides, straight-line drawing, order). -/
 theorem sec4_Hgraph_proved (n : ℕ) (hn : 2 ≤ n) :
     Fintype.card (Fin n ⊕ Fin 2) = n + 2 ∧
       IsProperFn (Hgraph n) (sideH n) ∧ IsStraightLinePlanar (Hgraph n) ∧
@@ -58,7 +58,7 @@ theorem sec4_Hgraph_proved (n : ℕ) (hn : 2 ≤ n) :
 theorem sec4_Hgraph_not_one_degenerate_proved (n : ℕ) (hn : 3 ≤ n) : ¬ IsDegenerate (Hgraph n) 1 :=
   FactsAux.Hgraph_not_one_degenerate n hn
 
-/-- Section 4.2 (girth six), short v3.90 l. 672-679: `J_n` (card, order, sides, girth `6`). -/
+/-- Section 4.2 (girth six), short v4.24 l. 717-726: `J_n` (card, order, sides, girth `6`). -/
 theorem sec4_Jgraph_proved (n : ℕ) (hn : 5 ≤ n) :
     Fintype.card (Fin n ⊕ Fin 4) = n + 4 ∧
       IsDegOrder (Jgraph n) 2 (finSumFinEquiv : Fin n ⊕ Fin 4 ≃ Fin (n + 4)) ∧
@@ -70,8 +70,8 @@ theorem sec4_Jgraph_not_one_degenerate_proved (n : ℕ) (hn : 5 ≤ n) : ¬ IsDe
   FactsAux.Jgraph_not_one_degenerate n hn
 
 set_option linter.unusedVariables false in
-/-- A remark of an earlier proof route (not in short v3.90, whose Remark 4.5 is `rem_4_5_apex_split` in
-Paper/Statements.lean): `H_n` is planar (v3.90 l. 582), triangle-free, and `R_4(H_n)` is connected, with Theorem 1.2
+/-- A remark of an earlier proof route (not in short v4.24, whose Remark 4.5 is `rem_4_5_apex_split` in
+Paper/Statements.lean): `H_n` is planar (v4.24 l. 626-627), triangle-free, and `R_4(H_n)` is connected, with Theorem 1.2
 as the hypothesis `h12`.
 (`hn` is part of the statement; the proof does not need it.) -/
 theorem rem_4_5_proved (n : ℕ) (hn : 2 ≤ n) (h12 : Thm12) :
@@ -80,7 +80,7 @@ theorem rem_4_5_proved (n : ℕ) (hn : 2 ≤ n) (h12 : Thm12) :
   exact ⟨PlanarAux.Hgraph_planar_proved n, FactsAux.cliqueFree_three_of_bipartite _ (Hgraph_bipartite n),
     SimpleGraph.connected_of_ediam_ne_top (hfinH h12 n)⟩
 
-/-- **Proposition 1.3 (prop:lb)** (v3.90 l. 84-89), with Theorem 1.2 as the hypothesis `h12`. -/
+/-- **Proposition 1.3 (prop:lb)** (v4.24 l. 84-89), with Theorem 1.2 as the hypothesis `h12`. -/
 theorem prop_1_3_lforms_proved (h12 : Thm12) :
     (∀ n : ℕ, 5 ≤ n →
       (Hgraph n).IsBipartite ∧ IsStraightLinePlanar (Hgraph n) ∧

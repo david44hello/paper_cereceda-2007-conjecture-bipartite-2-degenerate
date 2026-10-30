@@ -1,6 +1,6 @@
 /-
 Cereceda/Setting/HeightExtend.lean — a height given only on one component extends to the whole graph (the
-paper's heights in the proof of Lemma 2.3 are "height functions `h_α` of `α|_T` and `h_β` of `β|_T`", short v3.90 l. 336).
+paper's heights in the proof of Lemma 2.3 are "height functions `h_α` of `α|_T` and `h_β` of `β|_T`", short v4.24 l. 363).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 If some height of `c` on `F` exists (`h0`), and `h` is a height of `c` on the component of `s` only, then the function

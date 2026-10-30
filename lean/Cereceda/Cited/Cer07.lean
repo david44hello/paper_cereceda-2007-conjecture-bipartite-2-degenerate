@@ -1,7 +1,7 @@
 /-
 Cereceda/Cited/Cer07.lean — the cited statement [Cer07, Theorem 5.22] (used for the claims that the conjecture holds
-for bipartite 2-degenerate graphs for EVERY k ≥ 4, short paper v3.90 l. 39-42, 51-56, 112-114, that it settles d = 1
-(l. 112-113), and that open problem 1 would prove the d = 2 case, l. 741-742).
+for bipartite 2-degenerate graphs for EVERY k ≥ 4, short paper v4.24 l. 39-42, 51-55, 110-111, that it settles d = 1
+(l. 110-111), and that open problem 1 would prove the d = 2 case, l. 817-818).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 SOURCE: L. Cereceda, Mixing graph colourings, PhD thesis, London School of Economics, 2007 ("txt l." = a line of a

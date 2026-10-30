@@ -1,6 +1,6 @@
 /-
-Cereceda/Intro/TextSteps.lean — a vertex of degree at most 2 can be recoloured with four colours (short v3.90
-l. 147-148).
+Cereceda/Intro/TextSteps.lean — a vertex of degree at most 2 can be recoloured with four colours (short v4.24
+l. 214-215).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.Basic
@@ -60,7 +60,7 @@ end TextSteps
 
 open TextSteps
 
-/-- Short v3.90 l. 147-148, after the list (the hypothesis of [BFHR25, Thm. 1.3], class (ii)): for every
+/-- Short v4.24 l. 214-215, after the list (the hypothesis of [BFHR25, Thm. 1.3], class (ii)): for every
 `2`-degenerate graph, "such a graph has a vertex of degree at most $2$, and with four colours such a vertex can always
 be recoloured" — a recolouring is an edge of `recolGraph G 4` that changes only `v`. -/
 theorem intro_low_degree_recolour_proved {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj]

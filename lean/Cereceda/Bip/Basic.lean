@@ -1,5 +1,5 @@
 /-
-Cereceda/Bip/Basic.lean — Section 3 of the paper (short v3.90): sequence tools, greedy facts, Lemma 3.2, the kinds of
+Cereceda/Bip/Basic.lean — Section 3 of the paper (short v4.24): sequence tools, greedy facts, Lemma 3.2, the kinds of
 vertices, Lemma 3.3, Lemma 3.4 (upper middle).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
@@ -226,12 +226,12 @@ end Greedy
 
 end Bip
 
-/-- **Lemma 3.2** (lem:s1), v3.90 l. 410-411: for every vertex `v ≠ s`, `α(v), β(v) ∈ {0,1,2}`. -/
+/-- **Lemma 3.2** (lem:s1), v4.24 l. 435-436: for every vertex `v ≠ s`, `α(v), β(v) ∈ {0,1,2}`. -/
 theorem lem_3_2_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (α β : W → Fin 4)
     (hα : I.IsGreedy I.x α) (hβ : I.IsGreedy I.g β) (v : W) (hv : v ≠ I.sink) : α v ≤ 2 ∧ β v ≤ 2 :=
   ⟨Bip.le_two_of_ne_three (Bip.greedy_ne_three I hα hv), Bip.le_two_of_ne_three (Bip.greedy_ne_three I hβ hv)⟩
 
-/-- Section 3, v3.90 l. 418-421 (with `g = 0`): the kinds of vertices. -/
+/-- Section 3, v4.24 l. 443-446 (with `g = 0`): the kinds of vertices. -/
 theorem sec3_kinds_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hg0 : I.g = 0)
     (α β : W → Fin 4) (hα : I.IsGreedy I.x α) (hβ : I.IsGreedy I.g β) :
     (∀ v, v ≠ I.sink →
@@ -258,7 +258,7 @@ theorem sec3_kinds_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W
     revert y
     decide
 
-/-- **Lemma 3.3** (lem:s3), v3.90 l. 424-425: every leaver has an out-neighbour that is a joiner, and every joiner other
+/-- **Lemma 3.3** (lem:s3), v4.24 l. 450-451: every leaver has an out-neighbour that is a joiner, and every joiner other
 than `s` has an out-neighbour that is a leaver. -/
 theorem lem_3_3_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (α β : W → Fin 4)
     (hα : I.IsGreedy I.x α) (hβ : I.IsGreedy I.g β) :
@@ -276,7 +276,7 @@ theorem lem_3_3_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (
     obtain ⟨u, hu, hαu⟩ := Bip.greedy_below I hα hv h0L (lt_of_le_of_ne (Fin.zero_le _) (Ne.symm ha))
     refine ⟨u, hu, hαu, fun hβu => Bip.greedy_out_ne I hβ hu (hβu.trans h0.symm)⟩
 
-/-- **Lemma 3.4** (lem:um), v3.90 l. 433-438: the upper-middle sequence, for any order of the ties. -/
+/-- **Lemma 3.4** (lem:um), v4.24 l. 459-464: the upper-middle sequence, for any order of the ties. -/
 theorem lem_3_4_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (α β μ : W → Fin 4)
     (hα : I.IsGreedy I.x α) (hβ : I.IsGreedy I.g β) (hμ : IsProperFn I.graph μ) (hμL : ∀ v, μ v ∈ I.L v)
     (hμα : ∀ v, α v ≤ μ v) (hμβ : ∀ v, β v ≤ μ v) (hμs : μ I.sink = I.x)

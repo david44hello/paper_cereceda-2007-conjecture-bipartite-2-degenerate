@@ -1,7 +1,7 @@
 /-
-Cereceda/Intro/OAT.lean — bipartite OAT graphs are semi-false (short v3.90 l. 179-192): complete bipartite graphs,
-disjoint unions and adding a vertex `u` with `N(u) ⊆ N(v)` keep a graph semi-false, and by induction along the
-construction a bipartite OAT graph is semi-false.
+Cereceda/Intro/OAT.lean — bipartite OAT graphs are semi-false (short v4.24 Remark 4.9, l. 800-809): complete
+bipartite graphs, disjoint unions and adding a vertex `u` with `N(u) ⊆ N(v)` keep a graph semi-false, and by
+induction along the construction a bipartite OAT graph is semi-false.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.OAT
@@ -79,7 +79,7 @@ theorem exists_bound {V : Type} [Finite V] (f : V → ℕ) : ∃ N, ∀ a, f a <
   obtain ⟨N, hN⟩ := (Set.finite_range f).bddAbove
   exact ⟨N + 1, fun a => Nat.lt_succ_of_le (hN ⟨a, rfl⟩)⟩
 
-/-! ### The three operations of v3.90 l. 186-191 -/
+/-! ### The three operations of v4.24 l. 805-808 -/
 
 /-- A disjoint union of two semi-false graphs is semi-false (the two ranks, interleaved). -/
 theorem sfNat_sum {V W : Type} {G : SimpleGraph V} {H : SimpleGraph W} (hG : SFNat G) (hH : SFNat H) :
@@ -277,7 +277,7 @@ theorem IsOAT.nonempty {V : Type} {G : SimpleGraph V} (hG : IsOAT G) : Nonempty 
   | attach v _ _ _ => exact ⟨Sum.inl v⟩
   | iso _ he ih => exact ⟨he.some ih.some⟩
 
-/-- A bipartite OAT graph is semi-false along an injective rank (induction along the construction, v3.90 l. 182-192). -/
+/-- A bipartite OAT graph is semi-false along an injective rank (induction along the construction, v4.24 l. 801-809). -/
 theorem IsOAT.sfNat {V : Type} {G : SimpleGraph V} (hG : IsOAT G) : G.IsBipartite → SFNat G := by
   induction hG with
   | single =>
@@ -315,27 +315,28 @@ theorem completeBipartite_eq_joinGraph (V W : Type) :
     completeBipartiteGraph V W = joinGraph (⊥ : SimpleGraph V) (⊥ : SimpleGraph W) := by
   ext (a | b) (a' | b') <;> simp
 
-/-- (a) A complete bipartite graph is semi-false (v3.90 l. 186-188). -/
+/-- (a) A complete bipartite graph is semi-false (v4.24 l. 805), built directly by the semi-false operations (the
+paper's reason, "it is chordal bipartite and therefore semi-false", is not used). -/
 theorem intro_completeBipartite_semiFalse_proved (m n : ℕ) : IsSemiFalse (completeBipartiteGraph (Fin m) (Fin n)) := by
   rw [isSemiFalse_iff, completeBipartite_eq_joinGraph]
   exact sfNat_joinGraph_of_edgeless (fun _ _ => by simp) (fun _ _ => by simp)
 
-/-- (b) A disjoint union of two semi-false graphs is semi-false (v3.90 l. 190-191). -/
+/-- (b) A disjoint union of two semi-false graphs is semi-false (v4.24 l. 806-807). -/
 theorem intro_union_semiFalse_proved {V W : Type} [Fintype V] [DecidableEq V] [Fintype W] [DecidableEq W]
     (G : SimpleGraph V) (H : SimpleGraph W) : IsSemiFalse G → IsSemiFalse H → IsSemiFalse (G ⊕g H) := fun hG hH =>
   (isSemiFalse_iff _).2 (sfNat_sum ((isSemiFalse_iff G).1 hG) ((isSemiFalse_iff H).1 hH))
 
-/-- (c) Adding a vertex `u` with `N(u) ⊆ N(v)` keeps a graph semi-false (v3.90 l. 191). -/
+/-- (c) Adding a vertex `u` with `N(u) ⊆ N(v)` keeps a graph semi-false (v4.24 l. 808). -/
 theorem intro_addVertex_semiFalse_proved {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) (v : V) (S : Set V)
     (hS : S ⊆ G.neighborSet v) : IsSemiFalse G → IsSemiFalse (addVertex G S) := fun hG =>
   (isSemiFalse_iff _).2 (sfNat_addVertex v hS ((isSemiFalse_iff G).1 hG))
 
-/-- (main) A bipartite OAT graph is semi-false (v3.90 l. 179-192). -/
+/-- (main) A bipartite OAT graph is semi-false (v4.24 l. 800-809). -/
 theorem intro_oat_semiFalse_proved {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) (hG : IsOAT G)
     (hbip : G.IsBipartite) : IsSemiFalse G :=
   (isSemiFalse_iff G).2 (hG.sfNat hbip)
 
-/-- v3.90 l. 182-184: "Each operation adds edges only at a new vertex or between the two graphs that it combines, so every
+/-- v4.24 l. 802-803: "Each operation adds edges only at a new vertex or between the two graphs that it combines, so every
 graph built along the way is an induced subgraph of the final graph": each of the four operations embeds the graphs it
 is given as induced subgraphs (`↪g` preserves and reflects adjacency), and embeddings compose (`Embedding.trans`). -/
 theorem intro_oat_induced_proved {V W : Type} (G : SimpleGraph V) (H : SimpleGraph W) (S : Set V) (v : V) (k : ℕ) :

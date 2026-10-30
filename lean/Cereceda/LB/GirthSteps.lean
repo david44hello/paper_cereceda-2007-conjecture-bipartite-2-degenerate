@@ -1,5 +1,5 @@
 /-
-Cereceda/LB/GirthSteps.lean — Section 4 steps: winding well defined, Remark 4.5 colouring, the cycles of `J_n` (short v3.90 l. 595-679).
+Cereceda/LB/GirthSteps.lean — Section 4 steps: winding well defined, Remark 4.5 colouring, the cycles of `J_n` (short v4.24 l. 641-726).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.LowerBound
@@ -208,7 +208,8 @@ end GirthSteps
 
 open GirthSteps
 
-/-- Short v3.90 l. 595: "The *winding* of `c` is `W = h(ℓ) - h(1)`. It does not depend on the choice of `h`".
+/-- Short v4.24 l. 641: "We define the *winding* of `c` as `W = h(ℓ) - h(1)`. It does not depend on the choice
+of `h`".
 Any two height functions differ by a constant on the path, so all their differences agree. -/
 theorem sec4_winding_well_defined_proved {n k : ℕ} (c : Fin n ⊕ Fin k → Fin 4) (h h' : ℕ → ℤ) (hh : IsPathHeight c h)
     (hh' : IsPathHeight c h') (i j : ℕ) (hi : i < n) (hj : j < n) : h i - h j = h' i - h' j := by
@@ -216,7 +217,7 @@ theorem sec4_winding_well_defined_proved {n k : ℕ} (c : Fin n ⊕ Fin k → Fi
   have hcj := diff_const hh hh' j hj
   linarith
 
-/-- Short v3.90 l. 667-668 (Remark 4.5): "here `a` and `b` can move when the path still uses three [colours]".
+/-- Short v4.24 l. 712-713 (Remark 4.5): "whereas `a` and `b` can move when the path still uses three [colours]".
 For `n ≥ 3` the plain proper colouring `0, 2, 1, 2, 1, …` of the path uses `0, 1, 2`, and `a` can move to `2`. -/
 theorem rem_4_5_three_colours_move_proved (n : ℕ) (hn : 3 ≤ n) :
     ∃ c : Fin n ⊕ Fin 2 → Fin 4, IsProperFn (Hgraph n) c ∧ IsPlain c ∧
@@ -224,7 +225,7 @@ theorem rem_4_5_three_colours_move_proved (n : ℕ) (hn : 3 ≤ n) :
       ∃ (j : Fin 2) (y : Fin 4), y ≠ 3 ∧ ∀ w, (Hgraph n).Adj (Sum.inr j) w → c w ≠ y :=
   ⟨remCol n, remCol_proper n, remCol_plain n, remCol_range n hn, 0, 2, by decide, remCol_apex n⟩
 
-/-- Short v3.90 l. 675: "Since the path is acyclic, every cycle passes through some `a_j`".
+/-- Short v4.24 l. 722: "As the path is acyclic, every cycle contains some `a_j`".
 Proof: rotate the cycle to start at its path vertex of largest index; see `GirthSteps.not_cycle_at_max`. -/
 theorem sec4_J_cycle_meets_apex_proved (n : ℕ) {u : Fin n ⊕ Fin 4} (w : (Jgraph n).Walk u u) (hw : w.IsCycle) :
     ∃ j : Fin 4, Sum.inr j ∈ w.support := by
@@ -240,12 +241,12 @@ theorem sec4_J_cycle_meets_apex_proved (n : ℕ) {u : Fin n ⊕ Fin 4} (w : (Jgr
   obtain ⟨i, rfl⟩ := hS x hx
   exact ⟨i, rfl, hmax _ (List.mem_toFinset.mpr hx)⟩
 
-/-- Short v3.90 l. 675: "the `a_j` are pairwise non-adjacent". -/
+/-- Short v4.24 l. 722: "the `a_j` are pairwise non-adjacent". -/
 theorem sec4_J_apices_nonadj_proved (n : ℕ) (j j' : Fin 4) : ¬ (Jgraph n).Adj (Sum.inr j) (Sum.inr j') :=
   GirthAux.Jgraph_not_adj_inr_inr j j'
 
-/-- Short v3.90 l. 675-677: "A cycle through exactly one `a_j` is `a_j v_i ⋯ v_{i'} a_j` with `i < i'` and
-`i ≡ i' ≡ j (mod 4)`, so `i' - i ≥ 4`, and its length is at least `6`".
+/-- Short v4.24 l. 722-724: "A cycle through exactly one `a_j` is `a_j v_i ⋯ v_{i'} a_j` with `i < i'` and
+`i ≡ i' ≡ j (mod 4)`. Since `i' - i ≥ 4`, its length is at least `6`".
 Proof: rotate the cycle to start at `a_j`; see `GirthSteps.one_apex_at`. -/
 theorem sec4_J_one_apex_cycle_proved (n : ℕ) {u : Fin n ⊕ Fin 4} (w : (Jgraph n).Walk u u) (hw : w.IsCycle)
     (j : Fin 4) (hj : Sum.inr j ∈ w.support) (hone : ∀ j' : Fin 4, Sum.inr j' ∈ w.support → j' = j) :
@@ -254,9 +255,9 @@ theorem sec4_J_one_apex_cycle_proved (n : ℕ) {u : Fin n ⊕ Fin 4} (w : (Jgrap
     (fun j' hj' => hone j' ((Walk.mem_support_rotate_iff _ _ _).mp hj'))
   rwa [Walk.length_rotate] at this
 
-/-- Short v3.90 l. 677-679: "A cycle through two or more of the `a_j` has at least two path vertices between any two
-of the `a_j` that are consecutive on it (each path vertex is joined to exactly one `a_j`), so it has at least three
-vertices for each `a_j` on it, and length at least `6`".
+/-- Short v4.24 l. 724-726: "A cycle through two or more of the `a_j` has at least two path vertices between any two
+of the `a_j` that are consecutive on it (each path vertex is joined to exactly one `a_j`). It therefore has at least
+three vertices for each `a_j` on it, and length at least `6`".
 Proof: rotate the cycle to start at `a_j`; see `GirthSteps.two_apex_at`. -/
 theorem sec4_J_two_apex_cycle_proved (n : ℕ) {u : Fin n ⊕ Fin 4} (w : (Jgraph n).Walk u u) (hw : w.IsCycle)
     (j j' : Fin 4) (hjj : j ≠ j') (hj : Sum.inr j ∈ w.support) (hj' : Sum.inr j' ∈ w.support) :

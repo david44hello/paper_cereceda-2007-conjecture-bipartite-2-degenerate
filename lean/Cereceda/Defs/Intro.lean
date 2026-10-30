@@ -3,8 +3,9 @@ Cereceda/Defs/Intro.lean — words used only in the introduction: once-subdivide
 [BB18]), tree decompositions and treewidth.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
-TRUST SURFACE: read against short v3.90 l. 132-171 (the classes (i)-(v), l. 132-144; chordal bipartite graphs, l. 161;
-the Grundy number and first-fit colourings, l. 164-166; subdivisions, l. 166-171) and [BB18] p. 2.
+TRUST SURFACE: read against short v4.24 l. 200-224 and 794-795 (the classes (i)-(v), l. 200-211; chordal bipartite
+graphs, Remark 4.9, l. 794-795; the Grundy number and first-fit colourings, l. 219-221; subdivisions, l. 221-224) and
+[BB18] p. 2.
 -/
 import Cereceda.Defs.Basic
 

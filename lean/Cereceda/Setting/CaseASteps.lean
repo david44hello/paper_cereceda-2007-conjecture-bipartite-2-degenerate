@@ -1,5 +1,5 @@
 /-
-Cereceda/Setting/CaseASteps.lean — proof of Lemma 2.3: F is a forest; T is reached from s by child arcs (short v3.90 l. 316-332).
+Cereceda/Setting/CaseASteps.lean — proof of Lemma 2.3: F is a forest; T is reached from s by child arcs (short v4.24 l. 342-359).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 Proof plan. (A) On a cycle of `F`, take the vertex `w` of largest rank and rotate the cycle to start at `w`. The second
@@ -53,9 +53,9 @@ lemma child_walk (hc : I.IsGreedy c0 c) {u v : W} (q : (I.fGraph c).Walk u v) :
 
 end CaseASteps
 
-/-- Proof of Lemma 2.3, short v3.90 l. 316-317: "Thus `F` induces a forest in which each vertex has at most one parent
-(an out-neighbour in `F`): on a cycle in `F`, the vertex that comes last in the instance order would have two
-out-neighbours in `F`." -/
+/-- Proof of Lemma 2.3, short v4.24 l. 342-343: "Thus `F` induces a forest in which each vertex has at most one parent
+(an out-neighbour in `F`), since on a cycle in `F` the vertex that comes last in the instance order would have both its
+neighbours on the cycle as out-neighbours in `F`." -/
 theorem lem_2_3_forest_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (c0 : Fin 4) (c : W → Fin 4)
     (hc : I.IsGreedy c0 c) : (I.fGraph c).IsAcyclic := by
   intro v p hp
@@ -71,10 +71,10 @@ theorem lem_2_3_forest_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instan
     (CaseASteps.mem_filter_of_adj_rank ha (hle _ (SimpleGraph.Walk.getVert_mem_support _ _))) _
     (CaseASteps.mem_filter_of_adj_rank hb.symm (hle _ (SimpleGraph.Walk.getVert_mem_support _ _))))
 
-/-- Proof of Lemma 2.3, short v3.90 l. 329-332: "The sink is the only vertex of `T` without a parent: `T` is a tree, so it
-has `|T| - 1` edges; each edge joins a vertex to its parent, and each vertex has at most one parent, so exactly
-`|T| - 1` vertices of `T` have a parent, and `s` has none. So every vertex of `T` other than `s` is reached from `s` by
-passing repeatedly from a vertex to one of its children" (`T` = the vertices reachable from the sink in `F`). -/
+/-- Proof of Lemma 2.3, short v4.24 l. 357-359: "As a tree, `T` has `|T| - 1` edges, each joining a vertex to its
+parent. Since each vertex has at most one parent, the sink `s` is the only vertex of `T` without one. Every other vertex
+of `T` is reached from `s` by passing repeatedly from a vertex to one of its children" (`T` = the vertices reachable
+from the sink in `F`). -/
 theorem lem_2_3_tree_children_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (c0 : Fin 4)
     (c : W → Fin 4) (hc : I.IsGreedy c0 c) (v : W) (hv : (I.fGraph c).Reachable I.sink v) :
     (v ≠ I.sink → ∃ p ∈ I.out v, c p ≠ 0) ∧

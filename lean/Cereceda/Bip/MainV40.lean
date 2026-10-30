@@ -1,6 +1,6 @@
 /-
-Cereceda/Bip/MainV40.lean — Section 3 of short v3.90: Theorem 3.1 along the paper's proof (the greedy `μ` of
-Definition 3.7, Proposition 3.8 and Lemma 3.4; l. 449-450 and 545-547), from the case g != 0 (a hypothesis:
+Cereceda/Bip/MainV40.lean — Section 3 of short v4.24: Theorem 3.1 along the paper's proof (the greedy `μ` of
+Definition 3.7, Proposition 3.8 and Lemma 3.4; l. 479, 503 and 562-564), from the case g != 0 (a hypothesis:
 `sec3_caseA_counts`).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
@@ -10,7 +10,7 @@ import Cereceda.Bip.Counts
 namespace Cereceda
 
 open Bip in
-/-- **Theorem 3.1** (thm:BIPinst, v3.90 l. 396-399) along the paper's proof (l. 545-547): the greedy `μ` (Proposition 3.8) satisfies
+/-- **Theorem 3.1** (thm:BIPinst, v4.24 l. 424-427) along the paper's proof (l. 562-564): the greedy `μ` (Proposition 3.8) satisfies
 the hypotheses of Lemma 3.4. `hA` = the type of `sec3_caseA_counts`. -/
 theorem thm_3_1_of_v40
     (hA : ∀ {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (_hg : 0 < I.g)

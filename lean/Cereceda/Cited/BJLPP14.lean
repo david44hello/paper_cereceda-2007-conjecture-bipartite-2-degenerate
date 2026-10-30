@@ -1,7 +1,7 @@
 /-
 Cereceda/Cited/BJLPP14.lean — the cited statements [BJLPP14, Theorems 8 and 10], used for the claim that semi-false graphs lie in
-class (iii) and for "a bipartite distance-hereditary graph ... is chordal bipartite, hence semi-false, and lies in (iii)"
-(short v3.90 l. 157-162, 176-179; OAT graphs land in (iii) through Theorem 10, l. 179-192).
+class (iii) and for "A bipartite distance-hereditary graph ... Being chordal bipartite, it is semi-false and lies in
+(iii)" (short v4.24 Remark 4.9, l. 790-795, 795-798; OAT graphs land in (iii) through Theorem 10, l. 800-809).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 SOURCE (REFEREED): M. Bonamy, M. Johnson, I. Lignos, V. Patel, D. Paulusma, Reconfiguration graphs for vertex

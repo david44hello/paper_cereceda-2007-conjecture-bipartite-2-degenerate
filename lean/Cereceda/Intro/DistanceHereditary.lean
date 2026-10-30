@@ -1,6 +1,6 @@
 /-
-Cereceda/Intro/DistanceHereditary.lean — proof of the row `intro_dh_chordal_bipartite` (short v3.90 l. 176-178): a
-bipartite distance-hereditary graph is chordal bipartite. Route: deleting one vertex of a chordless cycle of length at
+Cereceda/Intro/DistanceHereditary.lean — proof of the row `intro_dh_chordal_bipartite` (short v4.24 Remark 4.9,
+l. 795-797): a bipartite distance-hereditary graph is chordal bipartite. Route: deleting one vertex of a chordless cycle of length at
 least 6 leaves a connected induced path whose ends are at distance 2 in the graph; Lean shows that they are at
 distance at least 3 in the path (the paper says at least 4), which is enough.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.

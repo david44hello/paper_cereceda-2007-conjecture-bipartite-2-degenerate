@@ -1,7 +1,8 @@
 /-
 Cereceda/Cited/BH22.lean — the cited statement [BH22, Theorem 1] (first bullet), used for the claim that the conjecture
-holds for all planar bipartite graphs (short v3.90 l. 123-129: degeneracy `3` and `k ≥ 6`, "As planar bipartite graphs are
-`3`-degenerate and `6 = (3/2)(3+1)`").
+holds for all planar bipartite graphs (short v4.24 l. 117 and 121-124: degeneracy `3`, "which are `3`-degenerate by Euler's
+formula", and "For these graphs, Theorems 1 and 2 of [BH22] give `diam R_k(G) = O(n²)` for every `k ≥ 5`"; Theorem 1
+gives `k ≥ 6 = (3/2)(3+1)`).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 SOURCE: M. Bousquet and M. Heinrich, A polynomial version of Cereceda's conjecture, arXiv:1903.05619v1 (the version

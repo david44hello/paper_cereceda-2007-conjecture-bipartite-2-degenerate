@@ -1,5 +1,5 @@
 /-
-Cereceda/Setting/CaseAPaperCounts.lean — the case g != 0 of Theorem 3.1 (v3.90 l. 404-405) along the paper's proof of Lemma 2.3.
+Cereceda/Setting/CaseAPaperCounts.lean — the case g != 0 of Theorem 3.1 (v4.24 l. 430-431) along the paper's proof of Lemma 2.3.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 `sec3_caseA_counts_paper_proved`: the statement of the row `sec3_caseA_counts` (Paper/Statements.lean), with the row's
@@ -14,7 +14,7 @@ namespace Cereceda
 
 open Finset
 
-/-- Section 3, v3.90 l. 404-405, along the paper's proof of Lemma 2.3: the sink moves exactly once, every other
+/-- Section 3, v4.24 l. 430-431, along the paper's proof of Lemma 2.3: the sink moves exactly once, every other
 vertex at most twice. Same statement and proof as the row `sec3_caseA_counts`. -/
 theorem sec3_caseA_counts_paper_proved {W : Type} [Fintype W] [DecidableEq W] (I : Instance W) (hg : 0 < I.g)
     (α β : W → Fin 4) (hα : I.IsGreedy I.x α) (hβ : I.IsGreedy I.g β) :

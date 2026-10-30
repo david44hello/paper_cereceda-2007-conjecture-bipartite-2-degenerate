@@ -3,11 +3,15 @@ Cereceda/LB/LowerBounds.lean — Propositions 4.1 (prop:LBH) and 4.6 (prop:LB6) 
 Section 4): every walk from σ⁺ to σ⁻ in R_4 is long.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
-Route = the paper's (short v3.90 l. 644-660 and 705-714). Along a walk, as long as all colourings are plain, Lemma 4.2
-carries a height function, and each move changes `∑ |h_t - h_0|` by at most `2`. If no apex ever moves, the height goes
-from all steps `+1` to all steps `-1` (cost `(n²-1)/2`). Otherwise, just before the first apex move the colouring is
+Route = the paper's (short v4.24 l. 690-705 and 753-757), except in the case where no apex moves. Along a walk, as long
+as all colourings are plain, Lemma 4.2 carries a height function, and each move changes `∑ |h_t - h_0|` by at most `2`.
+If no apex ever moves, the height goes from all steps `+1` to all steps `-1`; Lean counts this full reversal directly
+(cost `(n²-1)/2`), where the paper applies Lemma 4.4 with `q = 2ℓ - 4` (cost `(ℓ-2)²/2`, smaller). Otherwise, just before the first apex move the colouring is
 flat (Lemma 4.3 / 4.7), so Lemma 4.4 gives `q²/8 ≤ 2·(moves before)`; reading the walk backwards from σ⁻, the same
 holds after the last apex move (mirror form of Lemma 4.4). The two parts are disjoint.
+The steps are lemmas of their own: `walk_no_apex_move` (no apex moves), `walk_before_nonplain` and
+`walk_after_nonplain` (the two parts, around any colouring that is not plain), `walk_apex_halves` (`q²/16` moves before and
+after every apex move).
 The `diam` parts take `ediam ≠ ⊤` (connectivity of R_4, from Theorem 1.2) as a hypothesis.
 -/
 import Cereceda.LB.Moves
@@ -171,6 +175,163 @@ theorem apex_move_of_adj (x y : (pathApex n k f).Coloring (Fin 4))
 
 /-! ### The lower bound for every walk from σ⁺ to σ⁻ -/
 
+/-- At a step of `R_4` at which an apex changes its colour, one of the two colourings is not plain. -/
+theorem not_plain_of_apex_change (x y : (pathApex n k f).Coloring (Fin 4)) (j : Fin k)
+    (hj : x (.inr j) ≠ y (.inr j)) : ¬ IsPlain ⇑x ∨ ¬ IsPlain ⇑y := by
+  by_cases hx : IsPlain ⇑x
+  · exact Or.inr fun hy => hj (by rw [hx j, hy j])
+  · exact Or.inl hx
+
+/-- If no apex ever changes its colour along a walk from σ⁺, every colouring of the walk is plain. -/
+theorem walk_plain_of_no_apex_move {y : (pathApex n k f).Coloring (Fin 4)}
+    (p : (recolGraph (pathApex n k f) 4).Walk (sigmaPlusCol n k f) y)
+    (hno : ∀ i < p.length, ∀ j, (p.getVert i) (.inr j) = (p.getVert (i + 1)) (.inr j)) :
+    ∀ t, t ≤ p.length → IsPlain ⇑(p.getVert t) := by
+  intro t
+  induction t with
+  | zero => intro _; rw [p.getVert_zero]; exact sigmaPlus_plain
+  | succ t ih => intro ht j; rw [← hno t (by omega) j]; exact ih (by omega) j
+
+/-- The case of Propositions 4.1 and 4.6 in which no apex ever moves: the height goes from all steps `+1` (σ⁺) to all
+steps `-1` (σ⁻), each move changes `∑ |h_t - h_0|` by at most `2`, and the full reversal costs `(n² - 1)/2`, so the
+walk has at least `(n² - 1)/4` steps. -/
+theorem walk_no_apex_move (p : (recolGraph (pathApex n k f) 4).Walk (sigmaPlusCol n k f) (sigmaMinusCol n k f))
+    (hno : ∀ i < p.length, ∀ j, (p.getVert i) (.inr j) = (p.getVert (i + 1)) (.inr j)) :
+    ((n : ℝ) ^ 2 - 1) / 4 ≤ p.length := by
+  set L := p.length with hL
+  have hX0 : p.getVert 0 = sigmaPlusCol n k f := p.getVert_zero
+  have hXL : p.getVert L = sigmaMinusCol n k f := p.getVert_length
+  have hadjF : ∀ s, s < L → (recolGraph (pathApex n k f) 4).Adj (p.getVert s) (p.getVert (s + 1)) :=
+    fun s hs => p.adj_getVert_succ hs
+  obtain ⟨g, hg, hb⟩ := seq_track (fun t => p.getVert t) L hadjF (walk_plain_of_no_apex_move p hno)
+    (fun i => (i : ℤ)) (by rw [hX0]; exact sp_height)
+  rw [hXL] at hg
+  have hrev := PathAux.full_reversal (n := n) (fun i => (i : ℤ)) g
+    (fun i _ => by push_cast; ring) (sm_steps g hg)
+  have hZ : (n : ℤ) ^ 2 - 1 ≤ 4 * L := by linarith
+  have hR : ((n : ℝ) ^ 2 - 1) ≤ 4 * (L : ℝ) := by exact_mod_cast hZ
+  linarith
+
+/-- The forward part of Propositions 4.1 and 4.6 (v4.24 l. 697-701 and 756). `hflat` as in `walk_lower_bound`. If the
+colouring at position `t` of a walk from σ⁺ to σ⁻ is not plain, then at least `q²/16` moves come before position
+`t - 1`: all colourings before the first colouring that is not plain are plain, the last of them allows an apex move,
+so it is flat, and Lemma 4.4 gives `q²/8 ≤ ∑ |h - h_0| ≤ 2·(moves before it)`. -/
+theorem walk_before_nonplain (q : ℝ) (hq : 0 ≤ q) (hqn : q / 4 + 1 ≤ (n : ℝ) / 2)
+    (hflat : ∀ c : Fin n ⊕ Fin k → Fin 4, IsProperFn (pathApex n k f) c → IsPlain c →
+      (∃ j y, LegalMove (pathApex n k f) (fun _ => univ) c (.inr j, y)) → ∀ g, IsPathHeight c g →
+        ((g (n - 1) - g 0 : ℤ) : ℝ) ≤ ((n : ℝ) - 1) - q ∧ -((n : ℝ) - 1) + q ≤ ((g (n - 1) - g 0 : ℤ) : ℝ))
+    (p : (recolGraph (pathApex n k f) 4).Walk (sigmaPlusCol n k f) (sigmaMinusCol n k f))
+    (t : ℕ) (htL : t ≤ p.length) (htP : ¬ IsPlain ⇑(p.getVert t)) :
+    q ^ 2 / 16 ≤ ((t - 1 : ℕ) : ℝ) := by
+  classical
+  set L := p.length with hL
+  have hX0 : p.getVert 0 = sigmaPlusCol n k f := p.getVert_zero
+  have hadjF : ∀ s, s < L → (recolGraph (pathApex n k f) 4).Adj (p.getVert s) (p.getVert (s + 1)) :=
+    fun s hs => p.adj_getVert_succ hs
+  have hex : ∃ t, t ≤ L ∧ ¬ IsPlain ⇑(p.getVert t) := ⟨t, htL, htP⟩
+  -- the first colouring that is not plain
+  set t1 := Nat.find hex with ht1
+  obtain ⟨ht1L, ht1P⟩ := Nat.find_spec hex
+  have hbefore : ∀ s, s < t1 → IsPlain ⇑(p.getVert s) := by
+    intro s hs
+    have := Nat.find_min hex hs
+    by_contra hc
+    exact this ⟨by omega, hc⟩
+  have ht1pos : 0 < t1 := by
+    rcases Nat.eq_zero_or_pos t1 with h0 | h0
+    · exfalso; apply ht1P; rw [← ht1, h0, hX0]; exact sigmaPlus_plain
+    · exact h0
+  obtain ⟨g1, hg1, hb1⟩ := seq_track (fun t => p.getVert t) (t1 - 1)
+    (fun s hs => hadjF s (by omega)) (fun s hs => hbefore s (by omega)) (fun i => (i : ℤ))
+    (by rw [hX0]; exact sp_height)
+  have hmove1 := apex_move_of_adj (p.getVert (t1 - 1)) (p.getVert t1)
+    (by have := hadjF (t1 - 1) (by omega); rwa [show t1 - 1 + 1 = t1 by omega] at this)
+    (hbefore _ (by omega)) ht1P
+  have hW1 := hflat _ (proper_of_coloring _) (hbefore _ (by omega)) hmove1 g1 hg1
+  have hc1 := cost_proved n (fun i => (i : ℤ)) g1 q (fun i _ => by push_cast; ring) (height_steps hg1) hq
+    hW1.1 hqn
+  have hb1R : ((∑ j ∈ range n, |g1 j - (j : ℤ)| : ℤ) : ℝ) ≤ 2 * ((t1 - 1 : ℕ) : ℝ) := by
+    exact_mod_cast hb1
+  rw [Int.cast_sum] at hb1R
+  have e1 : q ^ 2 / 8 ≤ 2 * ((t1 - 1 : ℕ) : ℝ) := hc1.trans hb1R
+  have ht1t : t1 ≤ t := Nat.find_min' hex ⟨htL, htP⟩
+  have hmono : ((t1 - 1 : ℕ) : ℝ) ≤ ((t - 1 : ℕ) : ℝ) := by exact_mod_cast (by omega : t1 - 1 ≤ t - 1)
+  linarith
+
+/-- The backward part of Propositions 4.1 and 4.6 (v4.24 l. 701-704 and 756-757). `hflat` as in `walk_lower_bound`. If
+the colouring at position `t` of a walk from σ⁺ to σ⁻ is not plain, then at least `q²/16` moves come after position
+`t + 1`: read the walk backwards from σ⁻ (height `i ↦ -i`) up to the last colouring that is not plain, and apply the
+mirror form of Lemma 4.4. -/
+theorem walk_after_nonplain (q : ℝ) (hq : 0 ≤ q) (hqn : q / 4 + 1 ≤ (n : ℝ) / 2)
+    (hflat : ∀ c : Fin n ⊕ Fin k → Fin 4, IsProperFn (pathApex n k f) c → IsPlain c →
+      (∃ j y, LegalMove (pathApex n k f) (fun _ => univ) c (.inr j, y)) → ∀ g, IsPathHeight c g →
+        ((g (n - 1) - g 0 : ℤ) : ℝ) ≤ ((n : ℝ) - 1) - q ∧ -((n : ℝ) - 1) + q ≤ ((g (n - 1) - g 0 : ℤ) : ℝ))
+    (p : (recolGraph (pathApex n k f) 4).Walk (sigmaPlusCol n k f) (sigmaMinusCol n k f))
+    (t : ℕ) (htL : t ≤ p.length) (htP : ¬ IsPlain ⇑(p.getVert t)) :
+    q ^ 2 / 16 ≤ ((p.length - t - 1 : ℕ) : ℝ) := by
+  classical
+  set L := p.length with hL
+  have hXL : p.getVert L = sigmaMinusCol n k f := p.getVert_length
+  have hadjF : ∀ s, s < L → (recolGraph (pathApex n k f) 4).Adj (p.getVert s) (p.getVert (s + 1)) :=
+    fun s hs => p.adj_getVert_succ hs
+  set P : ℕ → Prop := fun t => ¬ IsPlain ⇑(p.getVert t) with hP
+  -- the last colouring that is not plain
+  set t2 := Nat.findGreatest P L with ht2
+  have ht2P : P t2 := Nat.findGreatest_spec htL htP
+  have htt2 : t ≤ t2 := Nat.le_findGreatest htL htP
+  have ht2L : t2 < L := by
+    rcases lt_or_eq_of_le (Nat.findGreatest_le (P := P) L) with h | h
+    · exact h
+    · exfalso; apply ht2P; rw [ht2, h, hXL]; exact sigmaMinus_plain
+  have hafter : ∀ s, t2 < s → s ≤ L → IsPlain ⇑(p.getVert s) := by
+    intro s hs hsL
+    have := Nat.findGreatest_is_greatest hs hsL
+    simp only [hP, not_not] at this
+    exact this
+  obtain ⟨g2, hg2, hb2⟩ := seq_track (fun s => p.getVert (L - s)) (L - t2 - 1)
+    (fun s hs => by
+      have := (hadjF (L - s - 1) (by omega)).symm
+      rwa [show L - s - 1 + 1 = L - s by omega, show L - s - 1 = L - (s + 1) by omega] at this)
+    (fun s hs => hafter _ (by omega) (by omega)) (fun i => -(i : ℤ))
+    (by simp only [Nat.sub_zero]; rw [hXL]; exact sm_height)
+  simp only [show L - (L - t2 - 1) = t2 + 1 by omega] at hg2
+  have hmove2 := apex_move_of_adj (p.getVert (t2 + 1)) (p.getVert t2) (hadjF t2 ht2L).symm
+    (hafter _ (by omega) (by omega)) ht2P
+  have hW2 := hflat _ (proper_of_coloring _) (hafter _ (by omega) (by omega)) hmove2 g2 hg2
+  have hc2 := cost_mirror_proved n (fun i => -(i : ℤ)) g2 q (fun i _ => by push_cast; ring)
+    (height_steps hg2) hq hW2.2 hqn
+  have hb2R : ((∑ j ∈ range n, |g2 j - -(j : ℤ)| : ℤ) : ℝ) ≤ 2 * ((L - t2 - 1 : ℕ) : ℝ) := by
+    exact_mod_cast hb2
+  rw [Int.cast_sum] at hb2R
+  have e2 : q ^ 2 / 8 ≤ 2 * ((L - t2 - 1 : ℕ) : ℝ) := hc2.trans hb2R
+  have hmono : ((L - t2 - 1 : ℕ) : ℝ) ≤ ((L - t - 1 : ℕ) : ℝ) := by
+    exact_mod_cast (by omega : L - t2 - 1 ≤ L - t - 1)
+  linarith
+
+/-- Every move of an apex along a walk from σ⁺ to σ⁻ has at least `q²/16` moves before it and at least `q²/16` after it
+(v4.24 l. 701 and 704, "at least `(ℓ-5)²/16` moves precede `τ_1`" and "follow `τ_2`"; l. 756-757 for `J_ℓ`). `hflat`
+as in `walk_lower_bound`. At the step `i` (from position `i` to `i + 1`) one of the two colourings is not plain. -/
+theorem walk_apex_halves (q : ℝ) (hq : 0 ≤ q) (hqn : q / 4 + 1 ≤ (n : ℝ) / 2)
+    (hflat : ∀ c : Fin n ⊕ Fin k → Fin 4, IsProperFn (pathApex n k f) c → IsPlain c →
+      (∃ j y, LegalMove (pathApex n k f) (fun _ => univ) c (.inr j, y)) → ∀ g, IsPathHeight c g →
+        ((g (n - 1) - g 0 : ℤ) : ℝ) ≤ ((n : ℝ) - 1) - q ∧ -((n : ℝ) - 1) + q ≤ ((g (n - 1) - g 0 : ℤ) : ℝ))
+    (p : (recolGraph (pathApex n k f) 4).Walk (sigmaPlusCol n k f) (sigmaMinusCol n k f)) :
+    ∀ i < p.length, (∃ j, (p.getVert i) (.inr j) ≠ (p.getVert (i + 1)) (.inr j)) →
+      q ^ 2 / 16 ≤ (i : ℝ) ∧ q ^ 2 / 16 ≤ ((p.length - (i + 1) : ℕ) : ℝ) := by
+  rintro i hi ⟨j, hj⟩
+  rcases not_plain_of_apex_change _ _ j hj with h | h
+  · have h1 := walk_before_nonplain q hq hqn hflat p i hi.le h
+    have h2 := walk_after_nonplain q hq hqn hflat p i hi.le h
+    rw [Nat.sub_sub] at h2
+    have c1 : ((i - 1 : ℕ) : ℝ) ≤ (i : ℝ) := by exact_mod_cast Nat.sub_le i 1
+    exact ⟨by linarith, h2⟩
+  · have h1 := walk_before_nonplain q hq hqn hflat p (i + 1) hi h
+    have h2 := walk_after_nonplain q hq hqn hflat p (i + 1) hi h
+    rw [Nat.add_sub_cancel] at h1
+    have c2 : ((p.length - (i + 1) - 1 : ℕ) : ℝ) ≤ ((p.length - (i + 1) : ℕ) : ℝ) := by
+      exact_mod_cast Nat.sub_le _ 1
+    exact ⟨h1, by linarith⟩
+
 /-- The common core of Propositions 4.1 and 4.6. `hflat`: in every plain proper colouring that allows an apex move,
 every height has `-(n-1) + q ≤ W ≤ (n-1) - q` (Lemma 4.3 / 4.7). Then every walk from σ⁺ to σ⁻ has length at least
 `q²/8` (needs `q²/8 ≤ (n²-1)/4` for the case without apex moves). -/
@@ -181,84 +342,16 @@ theorem walk_lower_bound (q : ℝ) (hq : 0 ≤ q) (hqn : q / 4 + 1 ≤ (n : ℝ)
         ((g (n - 1) - g 0 : ℤ) : ℝ) ≤ ((n : ℝ) - 1) - q ∧ -((n : ℝ) - 1) + q ≤ ((g (n - 1) - g 0 : ℤ) : ℝ))
     (p : (recolGraph (pathApex n k f) 4).Walk (sigmaPlusCol n k f) (sigmaMinusCol n k f)) :
     q ^ 2 / 8 ≤ p.length := by
-  classical
-  set L := p.length with hL
-  have hX0 : p.getVert 0 = sigmaPlusCol n k f := p.getVert_zero
-  have hXL : p.getVert L = sigmaMinusCol n k f := p.getVert_length
-  have hadjF : ∀ s, s < L → (recolGraph (pathApex n k f) 4).Adj (p.getVert s) (p.getVert (s + 1)) :=
-    fun s hs => p.adj_getVert_succ hs
-  by_cases hall : ∀ t, t ≤ L → IsPlain ⇑(p.getVert t)
+  by_cases hno : ∀ i < p.length, ∀ j, (p.getVert i) (.inr j) = (p.getVert (i + 1)) (.inr j)
   · -- no apex ever moves: full reversal
-    obtain ⟨g, hg, hb⟩ := seq_track (fun t => p.getVert t) L hadjF hall (fun i => (i : ℤ))
-      (by rw [hX0]; exact sp_height)
-    rw [hXL] at hg
-    have hrev := PathAux.full_reversal (n := n) (fun i => (i : ℤ)) g
-      (fun i _ => by push_cast; ring) (sm_steps g hg)
-    have hZ : (n : ℤ) ^ 2 - 1 ≤ 4 * L := by linarith
-    have hR : ((n : ℝ) ^ 2 - 1) ≤ 4 * (L : ℝ) := by exact_mod_cast hZ
-    linarith
-  · simp only [not_forall, exists_prop] at hall
-    have hex : ∃ t, t ≤ L ∧ ¬ IsPlain ⇑(p.getVert t) := hall
-    set P : ℕ → Prop := fun t => ¬ IsPlain ⇑(p.getVert t) with hP
-    -- the first colouring that is not plain
-    set t1 := Nat.find hex with ht1
-    obtain ⟨ht1L, ht1P⟩ := Nat.find_spec hex
-    have hbefore : ∀ s, s < t1 → IsPlain ⇑(p.getVert s) := by
-      intro s hs
-      have := Nat.find_min hex hs
-      by_contra hc
-      exact this ⟨by omega, hc⟩
-    have ht1pos : 0 < t1 := by
-      rcases Nat.eq_zero_or_pos t1 with h0 | h0
-      · exfalso; apply ht1P; rw [← ht1, h0, hX0]; exact sigmaPlus_plain
-      · exact h0
-    -- the last colouring that is not plain
-    set t2 := Nat.findGreatest P L with ht2
-    have ht2P : P t2 := Nat.findGreatest_spec ht1L ht1P
-    have ht12 : t1 ≤ t2 := Nat.le_findGreatest ht1L ht1P
-    have ht2L : t2 < L := by
-      rcases lt_or_eq_of_le (Nat.findGreatest_le (P := P) L) with h | h
-      · exact h
-      · exfalso; apply ht2P; rw [ht2, h, hXL]; exact sigmaMinus_plain
-    have hafter : ∀ s, t2 < s → s ≤ L → IsPlain ⇑(p.getVert s) := by
-      intro s hs hsL
-      have := Nat.findGreatest_is_greatest hs hsL
-      simp only [hP, not_not] at this
-      exact this
-    -- forward part: before the first apex move
-    obtain ⟨g1, hg1, hb1⟩ := seq_track (fun t => p.getVert t) (t1 - 1)
-      (fun s hs => hadjF s (by omega)) (fun s hs => hbefore s (by omega)) (fun i => (i : ℤ))
-      (by rw [hX0]; exact sp_height)
-    have hmove1 := apex_move_of_adj (p.getVert (t1 - 1)) (p.getVert t1)
-      (by have := hadjF (t1 - 1) (by omega); rwa [show t1 - 1 + 1 = t1 by omega] at this)
-      (hbefore _ (by omega)) ht1P
-    have hW1 := hflat _ (proper_of_coloring _) (hbefore _ (by omega)) hmove1 g1 hg1
-    have hc1 := cost_proved n (fun i => (i : ℤ)) g1 q (fun i _ => by push_cast; ring) (height_steps hg1) hq
-      hW1.1 hqn
-    -- backward part: after the last apex move, read from σ⁻
-    obtain ⟨g2, hg2, hb2⟩ := seq_track (fun s => p.getVert (L - s)) (L - t2 - 1)
-      (fun s hs => by
-        have := (hadjF (L - s - 1) (by omega)).symm
-        rwa [show L - s - 1 + 1 = L - s by omega, show L - s - 1 = L - (s + 1) by omega] at this)
-      (fun s hs => hafter _ (by omega) (by omega)) (fun i => -(i : ℤ))
-      (by simp only [Nat.sub_zero]; rw [hXL]; exact sm_height)
-    simp only [show L - (L - t2 - 1) = t2 + 1 by omega] at hg2
-    have hmove2 := apex_move_of_adj (p.getVert (t2 + 1)) (p.getVert t2) (hadjF t2 ht2L).symm
-      (hafter _ (by omega) (by omega)) ht2P
-    have hW2 := hflat _ (proper_of_coloring _) (hafter _ (by omega) (by omega)) hmove2 g2 hg2
-    have hc2 := cost_mirror_proved n (fun i => -(i : ℤ)) g2 q (fun i _ => by push_cast; ring)
-      (height_steps hg2) hq hW2.2 hqn
-    -- combine
-    have hb1R : ((∑ j ∈ range n, |g1 j - (j : ℤ)| : ℤ) : ℝ) ≤ 2 * ((t1 - 1 : ℕ) : ℝ) := by
-      exact_mod_cast hb1
-    have hb2R : ((∑ j ∈ range n, |g2 j - -(j : ℤ)| : ℤ) : ℝ) ≤ 2 * ((L - t2 - 1 : ℕ) : ℝ) := by
-      exact_mod_cast hb2
-    rw [Int.cast_sum] at hb1R hb2R
-    have hcount : ((t1 - 1 : ℕ) : ℝ) + ((L - t2 - 1 : ℕ) : ℝ) ≤ (L : ℝ) := by
-      have : (t1 - 1) + (L - t2 - 1) ≤ L := by omega
+    exact hfull.trans (walk_no_apex_move p hno)
+  · -- some apex moves at a step `i`: `q²/16` moves before it and `q²/16` after it
+    push Not at hno
+    obtain ⟨i, hi, hj⟩ := hno
+    obtain ⟨h1, h2⟩ := walk_apex_halves q hq hqn hflat p i hi hj
+    have hsum : (i : ℝ) + ((p.length - (i + 1) : ℕ) : ℝ) ≤ p.length := by
+      have : i + (p.length - (i + 1)) ≤ p.length := by omega
       exact_mod_cast this
-    have e1 : q ^ 2 / 8 ≤ 2 * ((t1 - 1 : ℕ) : ℝ) := hc1.trans hb1R
-    have e2 : q ^ 2 / 8 ≤ 2 * ((L - t2 - 1 : ℕ) : ℝ) := hc2.trans hb2R
     linarith
 
 /-- From a lower bound on every walk between two colourings to a lower bound on `diam`, when `R_4` has finite
@@ -279,7 +372,7 @@ namespace Cereceda
 
 open Finset LBAux
 
-/-- **Proposition 4.1 (prop:LBH)** (v3.90 l. 586-589), with connectivity of `R_4(H_n)` (from Theorem 1.2) as the
+/-- **Proposition 4.1 (prop:LBH)** (v4.24 l. 631-635), with connectivity of `R_4(H_n)` (from Theorem 1.2) as the
 hypothesis `hfin` for the `diam` part. -/
 theorem prop_4_1_proved (n : ℕ) (hn : 5 ≤ n) (hfin : (recolGraph (Hgraph n) 4).ediam ≠ ⊤) :
     (∃ σp σm : (Hgraph n).Coloring (Fin 4), ⇑σp = sigmaPlus n 2 ∧ ⇑σm = sigmaMinus n 2 ∧
@@ -300,7 +393,7 @@ theorem prop_4_1_proved (n : ℕ) (hn : 5 ≤ n) (hfin : (recolGraph (Hgraph n) 
   rw [e]
   exact diam_ge_of_walks _ _ _ hwalk hfin
 
-/-- **Proposition 4.6 (prop:LB6)** (v3.90 l. 681-683), with connectivity of `R_4(J_n)` (from Theorem 1.2) as the
+/-- **Proposition 4.6 (prop:LB6)** (v4.24 l. 729-731), with connectivity of `R_4(J_n)` (from Theorem 1.2) as the
 hypothesis `hfin` for the `diam` part. -/
 theorem prop_4_6_proved (n : ℕ) (hn : 29 ≤ n) (hfin : (recolGraph (Jgraph n) 4).ediam ≠ ⊤) :
     (∃ σp σm : (Jgraph n).Coloring (Fin 4), ⇑σp = sigmaPlus n 4 ∧ ⇑σm = sigmaMinus n 4 ∧

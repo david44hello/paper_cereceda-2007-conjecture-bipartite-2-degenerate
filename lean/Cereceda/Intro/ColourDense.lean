@@ -1,6 +1,6 @@
 /-
-Cereceda/Intro/ColourDense.lean — class (iii) of Section 1 (short v3.90): the 2-colour-dense graphs are 3-colour-dense
-(l. 157-158).
+Cereceda/Intro/ColourDense.lean — class (iii) of Section 1 (short v4.24): the 2-colour-dense graphs are 3-colour-dense
+(Remark 4.9, l. 790-791).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.ColourDense
@@ -10,7 +10,7 @@ namespace Cereceda
 
 namespace ColourDense
 
-/-! ### The 2-colour-dense graphs are 3-colour-dense (v3.90 l. 157-158) -/
+/-! ### The 2-colour-dense graphs are 3-colour-dense (v4.24 l. 790-791) -/
 
 theorem _root_.Cereceda.colourDense_two_three_proved {V : Type} (G : SimpleGraph V) : IsColourDense 2 G → IsColourDense 3 G := by
   intro h

@@ -1,5 +1,5 @@
 /-
-Cereceda/Bip/Example8.lean — open problem 1 (short v3.90 l. 743-752): the 8-vertex instance where two moves per vertex fail.
+Cereceda/Bip/Example8.lean — open problem 1 (short v4.24 l. 819-828): the 8-vertex instance where two moves per vertex fail.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 ROUTE (a checked search; the paper cites [G, Remark 34.9] for this claim). A state is a colouring `c` and move counts `k`

@@ -1,6 +1,6 @@
 /-
 Cereceda/Setting/Small.lean — small Section 2 claims (cones, greedy, sequences, sweep's gamma), and two facts of the
-proof of Theorem 1.2 (short v3.90 l. 568-570: the cone instances are single-sink, and bipartite when `G` is).
+proof of Theorem 1.2 (short v4.24 l. 584-585: the cone instances are single-sink, and bipartite when `G` is).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.Defs.Basic

@@ -2,8 +2,8 @@
 Cereceda/Intro/UnionNoClass.lean — embedding lemmas used by Intro/SemiFalse.lean
 (degrees, treewidth, chordless long cycles and `mad` pass along graph embeddings; disjoint unions keep degeneracy and
 do not lower the Grundy number), and `intro_union_in_no_class_proved`, an earlier proof route of Section 1 (not in
-short v3.90; used by Intro/SemiFalse.lean): `K_{2,7} ⊔ (subdivided K_5) ⊔ T` with class (iii) read as chordal
-bipartite graphs. (The witness `G_0` of earlier drafts, with the subdivided `K_4`, is not in short v3.90; its modules
+short v4.24; used by Intro/SemiFalse.lean): `K_{2,7} ⊔ (subdivided K_5) ⊔ T` with class (iii) read as chordal
+bipartite graphs. (The witness `G_0` of earlier drafts, with the subdivided `K_4`, is not in short v4.24; its modules
 were removed.)
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 

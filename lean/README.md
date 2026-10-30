@@ -17,7 +17,7 @@ cd paper_cereceda-2007-conjecture-bipartite-2-degenerate/lean
 Its last lines look like:
 
 ```
-stmt_diff: 80 pairs, 0 not allowed
+stmt_diff: 96 pairs, 0 not allowed
 PASS: project builds; source policy passes; audit OPEN 0 / VIOLATION 0; every X_proved has the type of X.
 ```
 

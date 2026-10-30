@@ -1,6 +1,6 @@
 /-
-Cereceda/LB/NamedCycles.lean — the cycles named in Section 4: the 4-cycle `a v_1 v_2 v_3 a` of `H_ℓ` (short v3.90
-l. 583-584) and the 6-cycle `a_1 v_1 v_2 v_3 v_4 v_5 a_1` of `J_ℓ` (l. 679); so neither graph is a forest.
+Cereceda/LB/NamedCycles.lean — the cycles named in Section 4: the 4-cycle `a v_1 v_2 v_3 a` of `H_ℓ` (short v4.24
+l. 628-629) and the 6-cycle `a_1 v_1 v_2 v_3 v_4 v_5 a_1` of `J_ℓ` (l. 726); so neither graph is a forest.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
 import Cereceda.LB.Facts
@@ -46,7 +46,7 @@ namespace Cereceda
 
 open SimpleGraph NamedCycles
 
-/-- Paper (short v3.90, Section 4.1, l. 583-584): "For ℓ ≥ 3 it contains the 4-cycle a v_1 v_2 v_3 a, so it is not
+/-- Paper (short v4.24, Section 4.1, l. 628-629): "For ℓ ≥ 3 it contains the 4-cycle a v_1 v_2 v_3 a, so it is not
 a forest". Lean's `v_i` is `Sum.inl (i-1)` and `a` is `Sum.inr 0`. -/
 theorem sec4_Hgraph_four_cycle_proved (n : ℕ) (hn : 3 ≤ n) :
     ∃ w : (Hgraph n).Walk (.inr 0) (.inr 0), w.IsCycle ∧ w.length = 4 ∧
@@ -55,8 +55,8 @@ theorem sec4_Hgraph_four_cycle_proved (n : ℕ) (hn : 3 ≤ n) :
   ⟨Hgraph_fourCycle n hn, Hgraph_fourCycle_isCycle n hn, Hgraph_fourCycle_length n hn,
     Hgraph_fourCycle_support n hn, not_isAcyclic_of_isCycle (Hgraph_fourCycle_isCycle n hn)⟩
 
-/-- Paper (short v3.90, Section 4.2, l. 679): "Finally, a_1 v_1 v_2 v_3 v_4 v_5 a_1 is a 6-cycle; so J_ℓ is not a
-forest". Lean's `v_i` is `Sum.inl (i-1)` and `a_1` is `Sum.inr 1`. -/
+/-- Paper (short v4.24, Section 4.2, l. 726): "Finally, the 6-cycle a_1 v_1 v_2 v_3 v_4 v_5 a_1 shows that J_ℓ is
+not a forest". Lean's `v_i` is `Sum.inl (i-1)` and `a_1` is `Sum.inr 1`. -/
 theorem sec4_Jgraph_six_cycle_proved (n : ℕ) (hn : 5 ≤ n) :
     ∃ w : (Jgraph n).Walk (.inr 1) (.inr 1), w.IsCycle ∧ w.length = 6 ∧
       w.support = [.inr 1, .inl ⟨0, by omega⟩, .inl ⟨1, by omega⟩, .inl ⟨2, by omega⟩, .inl ⟨3, by omega⟩,

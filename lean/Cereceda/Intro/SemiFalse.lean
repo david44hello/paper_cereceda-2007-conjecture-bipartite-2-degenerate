@@ -1,9 +1,9 @@
 /-
 Cereceda/Intro/SemiFalse.lean — embeddings with no edge leaving the image (`Closed`, `closed_sumInl`, `closed_sumInr`),
-and two results of an earlier proof route of Section 1 that short v3.90 does not use: no
+and two results of an earlier proof route of Section 1 that short v4.24 does not use: no
 graph with the subdivided `K_5` as a component is semi-false, and `K_{2,7} ⊔ (subdivided K_5) ⊔ T` (and its disjoint
 union with any bipartite 2-degenerate graph) is not semi-false. Earlier drafts used the subdivided `K_4` and the
-3-colour-dense graphs instead (a paragraph that short v3.90 no longer has).
+3-colour-dense graphs instead (a paragraph that short v4.24 no longer has).
 Imported by Intro/ColourDense.lean.
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 -/
@@ -98,7 +98,7 @@ theorem closed_sumInr : Closed (SimpleGraph.Embedding.sumInr : B ↪g A ⊕g B) 
 
 end Closed
 
-/-! ### The two results of the earlier proof route (not in v3.90) -/
+/-! ### The two results of the earlier proof route (not in v4.24) -/
 
 theorem intro_K5sub_component_not_semiFalse_proved {W : Type} [Fintype W] [DecidableEq W] (G : SimpleGraph W)
     (f : subdivision (⊤ : SimpleGraph (Fin 5)) ↪g G) (hcomp : ∀ a y, G.Adj (f a) y → y ∈ Set.range f) :

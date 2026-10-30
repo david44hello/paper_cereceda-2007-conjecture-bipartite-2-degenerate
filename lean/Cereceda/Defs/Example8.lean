@@ -1,9 +1,9 @@
 /-
-Cereceda/Defs/Example8.lean — the instance on 8 vertices of open problem 1 (short v3.90 l. 743-752: "two moves per
+Cereceda/Defs/Example8.lean — the instance on 8 vertices of open problem 1 (short v4.24 l. 819-828: "two moves per
 vertex are not always enough"; the paper cites [G, Remark 34.9] for this).
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
-TRUST SURFACE (v3.90 l. 744-751). Vertices `s, u_1, …, u_7` = `Fin 8` (`s` = `0`, `u_i` = `i`), instance order =
+TRUST SURFACE (v4.24 l. 820-827). Vertices `s, u_1, …, u_7` = `Fin 8` (`s` = `0`, `u_i` = `i`), instance order =
 index, sink `s` with the list `{0,1}` and `x = 1`. Out-neighbours and lists: `u_1, u_2`: `{s}`, `{0,1,2}`;
 `u_3`: `{u_1}`, `{0,2,3}`; `u_4`: `{u_2, u_3}`, `{0,1,2,3}`; `u_5`: `{u_4}`, `{0,1,2}`; `u_6`: `{u_4}`, `{1,2,3}`;
 `u_7`: `{u_3, u_6}`, `{0,1,2,3}`.

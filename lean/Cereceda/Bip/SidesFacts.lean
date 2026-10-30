@@ -3,9 +3,10 @@ Cereceda/Bip/SidesFacts.lean — facts on greedy colourings and the sides of a b
 Author: Dave Goel. Copyright (C) Dave Goel 2026--now.
 
 Moved from Bip/Roles.lean (deleted with the earlier proof route of Theorem 3.1), content unchanged: the facts that
-Bip/MuV40.lean uses. Two facts from Lemma 3.5 carry Lemma 3.6 of v3.90 (l. 491-496): every out-neighbour of a vertex
-fixed on 2 is fixed (`fixed2_out_fixed`, case (a)), and a high mover with two out-neighbours has a fixed one
-(`high_two_has_fixed`, case (c)); each ends in a finite check over the patterns of Lemma 3.5.
+Bip/MuV40.lean uses. Two facts from Lemma 3.5 carry Lemma 3.6 of v4.24 (l. 508-513): every out-neighbour of a vertex
+fixed on 2 is fixed (`fixed2_out_fixed`, case (a)), and a high mover (`IsHighMover`) with two out-neighbours has a fixed one
+(`high_two_has_fixed`, case (b)); each ends in a finite check over the patterns of Lemma 3.5. (For (b) the paper uses
+only the sides of the two out-neighbours, l. 523-527; Lean splits on the side and the pattern of the vertex.)
 -/
 import Cereceda.Bip.Sides
 
