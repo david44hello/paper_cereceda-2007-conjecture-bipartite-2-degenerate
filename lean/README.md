@@ -24,4 +24,4 @@ PASS: project builds; source policy passes; audit OPEN 0 / VIOLATION 0; every X_
 8 claims use results that the paper cites, and 3 take a fact about planar graphs as a hypothesis;
 [AUDIT.md](AUDIT.md) names them, claim by claim.
 
-Copyright (C) Dave Goel 2026--now. All rights reserved.
+Copyright (C) Dave Goel 2026--now. Licensed under the Apache License 2.0; see LICENSE.
